@@ -1,0 +1,18 @@
+.custom-link{
+
+    transform: translateZ(0);
+    &:before{
+    content: "";
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    background: #5E2C0B;
+    height: 1.5px;
+    transition-duration: 0.5s;
+    }
+    &:hover:before{
+        right: 0;
+        left: 0;
+    }
+}
