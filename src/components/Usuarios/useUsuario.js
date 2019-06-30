@@ -1,10 +1,10 @@
 import {useState, useEffect} from 'react';
 
-const useUser = (registro, validate) => {
+const useUsuario = (registro, validate) => {
 
-    const [usuarios, setUsuarios] = useState({});
+    const [valores, setvalores] = useState({});
     const [errores, setErrores] = useState({});
-    const [registrando, setRegistrando] = useState(false);
+    const [registrando, setCompletando] = useState(false);
 
     useEffect(() => {
         if(Object.keys(errores).length === 0 && registrando ){
@@ -12,28 +12,28 @@ const useUser = (registro, validate) => {
         }
     }, [errores]);
 
-    const admRegistro = (e) => {
+    const admEnvio = (e) => {
         e.preventDefault();
 
-        setErrores(validate(usuarios));
+        setErrores(validate(valores));
 
-        setRegistrando(true);
+        setCompletando(true);
     };
 
     const admCambio = (e) => {
         e.persist();
-        setUsuarios(usuarios => (
-                {...usuarios, [e.target.name]: e.target.value}
+        setvalores(valores => (
+                {...valores, [e.target.name]: e.target.value}
             )
         );
     };
 
     return{ 
-        admRegistro,
+        admEnvio,
         admCambio,
-        usuarios,
+        valores,
         errores,
     }
 };
 
-export default useUser;
+export default useUsuario;

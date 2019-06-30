@@ -1,19 +1,21 @@
 import React from 'react';
-import Swal from 'sweetalert'
+import Swal from 'sweetalert';
+import { navigate } from 'hookrouter';
 
 import Header from 'components/Header/Header';
 import Footer from 'components/Footer/Footer';
 
-import useLogin from 'components/InicioSesion/useLogin';
-import reglasValidacion from 'components/InicioSesion/InicioSesionRules';
-import ServicioInicioSesion from 'components/InicioSesion/ServicioInicioSesion';
+import useUsuario from 'components/Usuarios/useUsuario';
+import reglasValidacion from 'components/Usuarios/InicioSesion/InicioSesionRules';
+
+import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
 const InicioSesion = () => {
 
-    const {inicioSesionData, errores, admInicioSesion, admCambio} = useLogin(iniciarSesion, reglasValidacion);
+    const {valores, errores, admEnvio, admCambio} = useUsuario(iniciarSesion, reglasValidacion);
 
     async function iniciarSesion(){
-        let response = await ServicioInicioSesion.verificarUsuarioLogin(inicioSesionData);
+        let response = await ServicioUsuarios.crearSesion(valores);
 
         if(!response.usuarioValido){
             Swal({
@@ -29,15 +31,27 @@ const InicioSesion = () => {
                     icon: 'error',
                 });
             }else{
-                Swal({
-                    title: 'Credenciales verificadas.',
-                    text: '¡Bienvenido a Pinto Sobre Ruedas!',
-                    icon: 'success',
-                });
+                if(response.contrasenaTemp){
+                    Swal({
+                        title: 'Antes de iniciar sesión.',
+                        text: 'Por favor cambie su conraseña.',
+                        icon: 'warning',
+                    });
 
-                ServicioInicioSesion.crearSesion(inicioSesionData.correoElectronico);
+                    navigate(`/cambiarContrasena/${valores.correoElectronico}`);
+                }else{
+                    Swal({
+                        title: 'Credenciales verificadas.',
+                        text: '¡Bienvenido a Pinto Sobre Ruedas!',
+                        icon: 'success',
+                    });
+                }
             }
         }
+    }
+
+    function reestablecerContrasena() {
+        navigate('/reestablecerContrasena');
     }
 
     return(
@@ -50,14 +64,14 @@ const InicioSesion = () => {
                     <h2 className="text-center text-brown col-md-12">Iniciar Sesión</h2>
                 </div>
 
-                <form className="row" onSubmit={admInicioSesion} noValidate>
+                <form className="row" onSubmit={admEnvio} noValidate>
 
                     <div className="col-md-6 mx-auto">
 
                         <div className="form-group col-md-12">
                             <label>Correo electrónico:</label>
 
-                            <input type="email" autoComplete="email" className={`form-control ${errores.correoElectronico && "border border-danger"}`} name="correoElectronico" onChange={admCambio} value={inicioSesionData.correoElectronico || ""} />
+                            <input type="email" autoComplete="email" className={`form-control ${errores.correoElectronico && "border border-danger"}`} name="correoElectronico" onChange={admCambio} value={valores.correoElectronico || ""} />
 
                             {errores.correoElectronico && (
                                 <small className="text-danger">{errores.correoElectronico}</small>
@@ -68,7 +82,7 @@ const InicioSesion = () => {
                         <div className="form-group col-md-12">
                             <label>Contraseña:</label>
                             
-                            <input type="password" autoComplete="password" className={`form-control ${errores.contrasena && "border border-danger"}`} name="contrasena" onChange={admCambio} value={inicioSesionData.contrasena || ""} />
+                            <input type="password" autoComplete="password" className={`form-control ${errores.contrasena && "border border-danger"}`} name="contrasena" onChange={admCambio} value={valores.contrasena || ""} />
 
                             {errores.contrasena && (
                                 <small className="text-danger">{errores.contrasena}</small>
@@ -79,8 +93,15 @@ const InicioSesion = () => {
 
                     </div>
                 </form>
-            </main>
 
+                <div className="row">
+                    <div className="col-md-6 mx-auto">
+                        <a href="#" onClick={reestablecerContrasena}>¿Olvidó su contraseña?</a>
+                    </div>
+
+                </div>
+
+            </main>
             <Footer />
         </>
     )

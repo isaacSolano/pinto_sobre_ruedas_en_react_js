@@ -5,20 +5,30 @@ import { navigate } from 'hookrouter';
 import Header from 'components/Header/Header';
 import Footer from 'components/Footer/Footer';
 
-import useUser from 'components/Usuarios/RegistroUsuarios/useUser';
+import useUsuario from 'components/Usuarios/useUsuario';
 import reglasValidacion from 'components/Usuarios/RegistroUsuarios/RegistroUsuariosRules';
-import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios'
+import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
 const RegistroUsuarios = () => {
 
-    const {usuarios, errores, admRegistro, admCambio} = useUser(enviarRegistro, reglasValidacion);
+    const {valores, errores, admEnvio, admCambio} = useUsuario(enviarRegistro, reglasValidacion);
 
     async function enviarRegistro(){
         
-        delete usuarios.confirmacionContrasena;
-        usuarios.rol = 1;
+        const nuevoUsuario = {
+            primerNombre: valores.primerNombre,
+            primerApellido: valores.primerApellido,
+            correoElectronico: valores.correoElectronico,
+            fechaNacimiento: valores.fechaNacimiento,
+            contrasena: {
+                valor: valores.contrasena,
+                temp: false,
+            },
+            modalidad: valores.modalidad,
+            rol: 1,
+        }
 
-        let response = await ServicioUsuarios.registrarUsuario(usuarios)
+        let response = await ServicioUsuarios.registrarUsuario(nuevoUsuario);
 
         if(response){
             Swal({
@@ -47,13 +57,13 @@ const RegistroUsuarios = () => {
                     <h2 className="text-center text-brown col-md-12">Registre su información</h2>
                 </div>
 
-                <form className="row" onSubmit={admRegistro} noValidate>
+                <form className="row" onSubmit={admEnvio} noValidate>
 
                     <div className="col-md-6 mx-auto">
 
                         <div className="form-group col-md-12">
                             <label>Primer nombre:</label>
-                            <input type="text" className={`form-control ${errores.primerNombre && 'border border-danger'}`} name="primerNombre" onChange={admCambio} value={usuarios.primerNombre || ""} />
+                            <input type="text" className={`form-control ${errores.primerNombre && 'border border-danger'}`} name="primerNombre" onChange={admCambio} value={valores.primerNombre || ""} />
 
                             {errores.primerNombre && (
                                 <small className="text-danger">{errores.primerNombre}</small>
@@ -62,7 +72,7 @@ const RegistroUsuarios = () => {
 
                         <div className="form-group col-md-12">
                             <label>Primer apellido:</label>
-                            <input type="text" className={`form-control ${errores.primerApellido && 'border border-danger'}`} name="primerApellido" onChange={admCambio} value={usuarios.primerApellido || ""} />
+                            <input type="text" className={`form-control ${errores.primerApellido && 'border border-danger'}`} name="primerApellido" onChange={admCambio} value={valores.primerApellido || ""} />
 
                             {errores.primerApellido && (
                                 <small className="text-danger">{errores.primerApellido}</small>
@@ -71,7 +81,7 @@ const RegistroUsuarios = () => {
 
                         <div className="form-group col-md-12">
                             <label>Correo electrónico:</label>
-                            <input type="email" autoComplete="email" className={`form-control ${errores.correoElectronico && 'border border-danger'}`} name="correoElectronico" onChange={admCambio} value={usuarios.correoElectronico || ""} />
+                            <input type="email" autoComplete="email" className={`form-control ${errores.correoElectronico && 'border border-danger'}`} name="correoElectronico" onChange={admCambio} value={valores.correoElectronico || ""} />
 
                             {errores.correoElectronico && (
                                 <small className="text-danger">{errores.correoElectronico}</small>
@@ -80,7 +90,7 @@ const RegistroUsuarios = () => {
 
                         <div className="form-group col-md-12">
                             <label>Fecha de nacimiento:</label>
-                            <input type="date" className={`form-control ${errores.fechaNacimiento && 'border border-danger'}`} name="fechaNacimiento" onChange={admCambio} value={usuarios.fechaNacimiento || ""} />
+                            <input type="date" className={`form-control ${errores.fechaNacimiento && 'border border-danger'}`} name="fechaNacimiento" onChange={admCambio} value={valores.fechaNacimiento || ""} />
 
                             {errores.fechaNacimiento && (
                                 <small className="text-danger">{errores.fechaNacimiento}</small>
@@ -89,7 +99,7 @@ const RegistroUsuarios = () => {
 
                         <div className="form-group col-md-12">
                             <label>Contraseña:</label>
-                            <input type="password" autoComplete="new-password" className={`form-control ${errores.contrasena && 'border border-danger'}`} name="contrasena" onChange={admCambio} value={usuarios.contrasena || ""} />
+                            <input type="password" autoComplete="new-password" className={`form-control ${errores.contrasena && 'border border-danger'}`} name="contrasena" onChange={admCambio} value={valores.contrasena || ""} />
 
                             {errores.contrasena && (
                                 <small className="text-danger">{errores.contrasena}</small>
@@ -98,7 +108,7 @@ const RegistroUsuarios = () => {
 
                         <div className="form-group col-md-12">
                             <label>Confirme su contraseña:</label>
-                            <input type="password" autoComplete="confirm-password" className={`form-control ${errores.confirmacionContrasena && 'border border-danger'}`} name="confirmacionContrasena" onChange={admCambio} value={usuarios.confirmacionContrasena || ""} />
+                            <input type="password" autoComplete="confirm-password" className={`form-control ${errores.confirmacionContrasena && 'border border-danger'}`} name="confirmacionContrasena" onChange={admCambio} value={valores.confirmacionContrasena || ""} />
 
                             {errores.confirmacionContrasena && (
                                 <small className="text-danger">{errores.confirmacionContrasena}</small>
@@ -108,7 +118,7 @@ const RegistroUsuarios = () => {
                         <div className="form-group col-md-12">
                             <label>Modalidad de deporte</label>
 
-                            <select className={`form-control ${errores.modalidad && 'border border-danger'}`} name="modalidad" onChange={admCambio} value={usuarios.modalidad || ""} >
+                            <select className={`form-control ${errores.modalidad && 'border border-danger'}`} name="modalidad" onChange={admCambio} value={valores.modalidad || ""} >
                                 <option value="0">Seleccione</option>
                                 <option value="bmx">BMX</option>
                                 <option value="ruta">Ruta</option>

@@ -1,16 +1,16 @@
-const validar = (inicioSesion) => {
+const validar = (inicioSesionData) => {
     let errores = {},
         requerido = 'Este campo es requerido';
 
-    if(!inicioSesion.correoElectronico){
+    if(!inicioSesionData.correoElectronico){
         errores.correoElectronico = requerido
     }else{
-        if(!/\S+@\S+\.\S+/.test(inicioSesion.correoElectronico) ){
+        if(!/\S+@\S+\.\S+/.test(inicioSesionData.correoElectronico) ){
             errores.correoElectronico = 'El correo electrónico ingresado no tiene formato válido.'
         } 
     }
 
-    if(!inicioSesion.contrasena){errores.contrasena = requerido}
+    if(!inicioSesionData.contrasena){errores.contrasena = requerido}
 
     return errores
 }

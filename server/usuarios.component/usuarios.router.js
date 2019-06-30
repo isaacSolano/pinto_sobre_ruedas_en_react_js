@@ -37,4 +37,18 @@ router.route('/retornar_usuario/:correoElectronico')
                })
      });
 
+router.route('/actualizar_usuario')
+     .put( (req, res) => {
+          const ActUsuario = new UsuarioModel(req.body);
+
+          ActUsuario.updateOne( ActUsuario )
+               .then(ActUsuario => {
+                    res.json(true);
+               })
+               .catch( (err) => {
+                    res.send(err);
+                    res.send(false);
+               })
+     });
+
 module.exports = router;
