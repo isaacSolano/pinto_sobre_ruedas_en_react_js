@@ -32,16 +32,16 @@ const RegistroUsuarios = () => {
 
         if(response){
             Swal({
-                title: "El usuario se ha registrado",
-                text: "El usuario se ha registrado exitosamente en nuestro sistema",
+                title: "El usuario se ha registrado.",
+                text: "El usuario se ha registrado exitosamente en nuestro sistema.",
                 icon: "success",
                 });
 
             navigate('/inicioSesion');
         }else{
             Swal({
-                title: "El usuario no se ha podido registar",
-                text: "El usuario ya esta registrado en el sistema, intenta iniciar sesión",
+                title: "El usuario no se ha podido registar.",
+                text: "El usuario ya esta registrado en el sistema, intenta iniciar sesión.",
                 icon: "error",
             });
         }

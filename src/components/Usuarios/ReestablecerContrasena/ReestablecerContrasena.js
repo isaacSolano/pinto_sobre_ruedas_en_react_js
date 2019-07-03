@@ -1,5 +1,6 @@
 import React from 'react';
 import Swal from 'sweetalert';
+import { navigate } from 'hookrouter';
 
 import Header from 'components/Header/Header';
 import Footer from 'components/Footer/Footer';
@@ -23,11 +24,13 @@ const ReestablecerContrasena = () => {
         if(contrasenaCambiada){
             Swal({
                 title: 'Revise su correo electronicónico.',
-                text: 'Se le ha enviado una contrasena temporal',
+                text: 'Se le ha enviado una contrasena temporal.',
                 icon: 'success',
             });
 
             await ServicioUsuarios.enviarCorreoElectronico(valores);
+
+            navigate('/inicioSesion');
         }else{
             Swal({
                 title: 'El usuario no está registrado.',
