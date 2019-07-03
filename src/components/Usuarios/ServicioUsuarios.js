@@ -15,10 +15,10 @@ const _obtenerTodosLosUsuarios = async() => {
 }
 
 const _obtenerUsuarioById = async(id) => {
-
+     
      let usuario = {};
 
-     await axios.get('http://localhost:5000/api/retornar_usuario/' + id)
+     await axios.get(`http://localhost:5000/api/retornar_usuario/${id}`)
      .then( (res) => {
          usuario = res.data;
      })
@@ -80,6 +80,10 @@ const _crearSesion = async(inicioSesionData) => {
      return response
 }
 
+const _cerrarSesion = () => {
+     sessionStorage.removeItem('usuarioActivo');
+}
+
 const _cambiarContrasena = async(reestablecerContrasenaData) => {
      let usuario = await _obtenerUsuarioById(reestablecerContrasenaData.correoElectronico),
           done = false;
@@ -106,12 +110,20 @@ const _enviarCorreoElectronico = async(enviarCorreoElecttronicoData) => {
      await axios.post('http://localhost:5000/api/enviarCorreo', enviarInformacion);
 }
 
+const _obtenerUsuarioActivo = () => {
+     let usuarioActivo = sessionStorage.getItem('usuarioActivo');
+
+     return usuarioActivo
+}
+
 const API = {
      obtenerTodosLosUsuarios: _obtenerTodosLosUsuarios,
      obtenerUsuarioById: _obtenerUsuarioById,
      registrarUsuario: _registrarUsuario,
      actualizarUsuario: _actualizarUsuario,
      crearSesion: _crearSesion,
+     cerrarSesion: _cerrarSesion,
+     obtenerUsuarioActivo: _obtenerUsuarioActivo,
      cambiarContrasena: _cambiarContrasena,
      enviarCorreoElectronico: _enviarCorreoElectronico,
 };

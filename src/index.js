@@ -1,9 +1,10 @@
 import React from 'react';
 import { render } from 'react-dom';
 
-import '@fortawesome/fontawesome-free/css/all.css'
+import 'popper.js'
+import '@fortawesome/fontawesome-free/css/all.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'components/scss/estilosGenerales.scss'
+import 'components/scss/estilosGenerales.scss';
 
 import Router from 'components/Router';
 

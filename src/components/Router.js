@@ -6,6 +6,7 @@ import RegistroUsuarios from 'components/Usuarios/RegistroUsuarios/RegistroUsuar
 import InicioSesion from 'components/Usuarios/InicioSesion/InicioSesion';
 import ReestablecerContrasena from 'components/Usuarios/ReestablecerContrasena/ReestablecerContrasena';
 import CambiarContrasena from 'components/Usuarios/CambiarContrasena/CambiarContrasena';
+import AplicacionInterna from 'components/AplicacionInterna/AplicacionInterna';
 
 import NotFound from 'components/404/404';
 
@@ -15,7 +16,8 @@ const routes = {
     '/registroUsuarios': () => <RegistroUsuarios />,
     '/inicioSesion': () => <InicioSesion />,
     '/reestablecerContrasena': () => <ReestablecerContrasena />,
-    '/cambiarContrasena/:correoElectronico': ({correoElectronico}) => <CambiarContrasena correoElectronico={correoElectronico} />
+    '/cambiarContrasena/:correoElectronico': ({correoElectronico}) => <CambiarContrasena correoElectronico={correoElectronico} />,
+    '/aplicacionInterna*': () => <AplicacionInterna />
 }
 
 const Router = () => {

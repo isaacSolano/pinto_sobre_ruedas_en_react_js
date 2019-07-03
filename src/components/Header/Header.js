@@ -1,19 +1,51 @@
 import React from 'react';
 import {navigate} from 'hookrouter';
-import logo from 'imgs/logo.png'
+import Swal from 'sweetalert';
+
+import logo from 'imgs/logo.png';
+
+import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
 import 'components/Header/Header.scss';
 
 const Header = () => {
 
+    let usuarioActivo = ServicioUsuarios.obtenerUsuarioActivo();
+
     let redirigirInicio = () => {
         navigate('/');
     }
+
     let redirigirRegistro = () => {
         navigate('/registroUsuarios');
     }
+
     let redirigirInicioSesion = () => {
         navigate('/inicioSesion')
+    }
+
+    let redirigirPerfil = () => {
+        navigate('/aplicacionInterna');
+    }
+
+    
+    let cerrarSesion = () => {
+        Swal({
+            title: '¿Desea cerrar sesión?',
+            icon: 'warning',
+            buttons: ["No, continuar navegando.", "Sí, cerrar sesión."],
+            dangerMode: true,
+        })
+        .then((cerrarSesion) => {
+            if(cerrarSesion){
+                Swal({title: '¡Gracias por su visita!', icon: 'success'});
+
+                ServicioUsuarios.cerrarSesion();
+                navigate('/');
+            }else{
+                Swal({title: 'Su sesión continua activa', icon: 'success'});
+            }
+        });
     }
 
     return(
@@ -32,8 +64,19 @@ const Header = () => {
                     </a>
 
                     <nav className="nav nav-pills justify-content-end col-md-4">
-                        <a href="#" className="nav-link text-brown" onClick={redirigirRegistro}>Registrarse</a>
-                        <a href="#" className="nav-link btn-brown text-yellow" onClick={redirigirInicioSesion}>Iniciar Sesión</a>
+
+                        {usuarioActivo ? (
+                            <a href="#" className="custom-link nav-link text-brown" onClick={redirigirPerfil}>Mi perfil</a>
+                        ) : (
+                            <a href="#" className="custom-link nav-link text-brown" onClick={redirigirRegistro}>Registrarse</a>
+                        )}
+                        
+                        {usuarioActivo ? (
+                            <a href="#" className="nav-link btn-brown text-yellow" onClick={cerrarSesion}>Cerrar Sesión</a>
+                        ) : (
+                            <a href="#" className="nav-link btn-brown text-yellow" onClick={redirigirInicioSesion}>Iniciar Sesión</a>
+                        )}
+                        
                     </nav>
                 </nav>
             </div>

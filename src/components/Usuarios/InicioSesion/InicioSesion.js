@@ -45,6 +45,8 @@ const InicioSesion = () => {
                         text: '¡Bienvenido a Pinto Sobre Ruedas!',
                         icon: 'success',
                     });
+
+                    navigate('/aplicacionInterna');
                 }
             }
         }
