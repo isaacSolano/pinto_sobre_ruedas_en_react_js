@@ -26,6 +26,7 @@ const RegistroUsuarios = () => {
             },
             modalidad: valores.modalidad,
             rol: 1,
+            desactivado: false,
         }
 
         let response = await ServicioUsuarios.registrarUsuario(nuevoUsuario);

@@ -43,7 +43,7 @@ const _registrarUsuario = async(nuevoUsuario) => {
 const _actualizarUsuario = async(usuarioActualizado) => {
      let done;
 
-     await axios.put('http://localhost:5000/api/actualizar_usuario', usuarioActualizado)
+     await axios.put(`http://localhost:5000/api/actualizar_usuario`, usuarioActualizado)
      .then( (res) => {
           done = res.data
      })
@@ -62,14 +62,16 @@ const _crearSesion = async(inicioSesionData) => {
              usuarioValido: false, 
              contrasenaValida: false,
              contrasenaTemp: false,
+             desact: false,
          };
  
      if(usuario){
          response.usuarioValido = true;
          if(usuario.contrasena.valor === inicioSesionData.contrasena){
                response.contrasenaValida = true;
-
                response.contrasenaTemp = usuario.contrasena.temp;
+               response.desact = usuario.desactivado;
+
                sessionStorage.setItem('usuarioActivo', inicioSesionData.correoElectronico);
          }
      }
@@ -113,6 +115,15 @@ const _obtenerUsuarioActivo = () => {
      return usuarioActivo
 }
 
+const _actDesactUsuario = async(id) => {
+     let usuario = await _obtenerUsuarioById(id);
+
+     usuario.desactivado = !usuario.desactivado;
+
+     API.actualizarUsuario(usuario);
+
+}
+
 const API = {
      obtenerTodosLosUsuarios: _obtenerTodosLosUsuarios,
      obtenerUsuarioById: _obtenerUsuarioById,
@@ -123,6 +134,7 @@ const API = {
      obtenerUsuarioActivo: _obtenerUsuarioActivo,
      cambiarContrasena: _cambiarContrasena,
      enviarCorreoElectronico: _enviarCorreoElectronico,
+     actDesactUsuario: _actDesactUsuario,
 };
 
 export default API;

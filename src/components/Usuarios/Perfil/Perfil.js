@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { navigate } from 'hookrouter';
+import Swal from 'sweetalert';
 
 import Header from 'components/Header/Header';
 import Footer from 'components/Footer/Footer';
@@ -8,20 +9,11 @@ import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
 const Perfil = (props) => {
 
-    const [informacionUsuario, setinformacionUsuario] = useState({});
-
-    useEffect(() => {
-        let obtenerInformacionUsuarioActivo = async() => {
-          const informacionUsuarioActivo = await ServicioUsuarios.obtenerUsuarioById(props.usuarioActivo);
-
-          setinformacionUsuario(informacionUsuarioActivo);
-        }
-        obtenerInformacionUsuarioActivo();
-      }, [props.usuarioActivo]);
+    const informacionUsuarioActivo = props.infoUsuarioActivo;
 
     let fechaNacimientoUsuarioActivo = () => {
         let mesesDelAnio = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            fechaConFormato =  new Date(informacionUsuario.fechaNacimiento).getDate() + 1 + ' ' + mesesDelAnio[new Date(informacionUsuario.fechaNacimiento).getMonth()] + ' ' + new Date(informacionUsuario.fechaNacimiento).getFullYear();
+            fechaConFormato =  new Date(informacionUsuarioActivo.fechaNacimiento).getDate() + 1 + ' ' + mesesDelAnio[new Date(informacionUsuarioActivo.fechaNacimiento).getMonth()] + ' ' + new Date(informacionUsuarioActivo.fechaNacimiento).getFullYear();
 
             return fechaConFormato
     }
@@ -31,7 +23,32 @@ const Perfil = (props) => {
     }
     let redirigirDesactivarUsuario = (e) => {
         e.preventDefault();
-        // navigate('/)
+        Swal({
+            title: '¿Desea desactivar su perfil?',
+            text: 'Puede reactivarlo cuando desee solo con iniciar sesión.',
+            icon: 'warning',
+            buttons: ["Mantener perfil activo", "Desactivar perfil"],
+            dangerMode: true,
+        })
+        .then( async(confirmacion) => {
+            if(confirmacion){
+                Swal({
+                    title: 'Adiós',
+                    text: 'Gracias por compartir sus historias con nosotros.',
+                    icon: 'success',
+                });
+
+                await ServicioUsuarios.actDesactUsuario(informacionUsuarioActivo.correoElectronico);
+                await ServicioUsuarios.cerrarSesion();
+                navigate('/');
+            }else{
+                Swal({
+                    title: 'Su perfil continua activo',
+                    text: 'Gracias por seguir compartiendo historias con nosotros.',
+                    icon: 'success',
+                })
+            }
+        });
     }
 
     let redirigirCambiarContrasena = () => {
@@ -77,15 +94,15 @@ const Perfil = (props) => {
                     </div>
 
                     <div className="col-md-12 mt-4">
-                        <p className="text-brown font-weight-bold">Primer nombre: <span className="font-weight-normal">{informacionUsuario.primerNombre}</span></p>
+                        <p className="text-brown font-weight-bold">Primer nombre: <span className="font-weight-normal">{informacionUsuarioActivo.primerNombre}</span></p>
 
-                        <p className="text-brown font-weight-bold">Primer apellido: <span className="font-weight-normal">{informacionUsuario.primerApellido}</span></p>
+                        <p className="text-brown font-weight-bold">Primer apellido: <span className="font-weight-normal">{informacionUsuarioActivo.primerApellido}</span></p>
                     
-                        <p className="text-brown font-weight-bold">Correo electronico <span className="font-weight-normal">{informacionUsuario.correoElectronico}</span></p>
+                        <p className="text-brown font-weight-bold">Correo electronico <span className="font-weight-normal">{informacionUsuarioActivo.correoElectronico}</span></p>
 
                         <p className="text-brown font-weight-bold">Fecha de nacimiento: <span className="font-weight-normal">{fechaNacimientoUsuarioActivo()}</span></p>
 
-                        <p className="text-brown font-weight-bold">Modalidad: <span className="font-weight-normal text-capitalize">{informacionUsuario.modalidad}</span></p>
+                        <p className="text-brown font-weight-bold">Modalidad: <span className="font-weight-normal text-capitalize">{informacionUsuarioActivo.modalidad}</span></p>
                     </div>
                         
                 </div>

@@ -10,13 +10,13 @@ import reglasValidacion from 'components/Usuarios/CambiarContrasena/CambiarContr
 
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
-const CambiarContrasena = () => {
+const CambiarContrasena = (props) => {
 
     const {valores, errores, admEnvio, admCambio} = useusuario(cambiarContrasena, reglasValidacion);
 
     async function cambiarContrasena(){
         let cambios = {
-            correoElectronico: ServicioUsuarios.obtenerUsuarioActivo(),
+            correoElectronico: props.usuarioActivo,
             nuevaContrasena: valores.nuevaContrasena,
             temporal: false
         },

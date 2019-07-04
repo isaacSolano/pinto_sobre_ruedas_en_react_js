@@ -11,7 +11,8 @@ const UsuarioSchema = new Schema({
           temp: Boolean,
      },
      modalidad: {type: String, required: true},
-     rol: {type: Number, required: true}
+     rol: {type: Number, required: true},
+     desactivado: {type: Boolean, required:true}
 });
 
 module.exports = mongoose.model('Usuario', UsuarioSchema);

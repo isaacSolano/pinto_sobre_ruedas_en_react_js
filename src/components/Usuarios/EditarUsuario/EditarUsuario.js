@@ -10,11 +10,11 @@ import reglasValidacion from 'components/Usuarios/EditarUsuario/EditarUsuarioRul
 
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
-const EditarUsuario = () => {
+const EditarUsuario = (props) => {
 
-    const usuarioActivo = ServicioUsuarios.obtenerUsuarioActivo();
+    const infoUsuarioActivo = props.infoUsuarioActivo;
 
-    const {valores, errores, admEnvio, admCambio} = useEditarUsuario(enviarEditarUsuario, reglasValidacion, usuarioActivo);
+    const {valores, errores, admEnvio, admCambio} = useEditarUsuario(enviarEditarUsuario, reglasValidacion, infoUsuarioActivo);
 
     async function enviarEditarUsuario(){
         let response = await ServicioUsuarios.actualizarUsuario(valores);

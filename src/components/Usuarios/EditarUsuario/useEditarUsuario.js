@@ -1,23 +1,14 @@
 import {useState, useEffect} from 'react';
-import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios'
 
-const useUsuario = (registro, validate, usuarioActivo) => {
+const useUsuario = (registro, validate, infoUsuarioActivo) => {
 
     const [valores, setvalores] = useState({});
     const [errores, setErrores] = useState({});
     const [registrando, setCompletando] = useState(false);
 
     useEffect(() => {
-        let obtenerInformacionPrevia = async() => {
-            const informacionPrevia = await ServicioUsuarios.obtenerUsuarioById(usuarioActivo);
-
-            setvalores(informacionPrevia);
-        }
-        
-        obtenerInformacionPrevia();
-        
-        
-    }, [usuarioActivo.correoElectronico]);
+        setvalores(infoUsuarioActivo);
+    }, [infoUsuarioActivo.correoElectronico]);
 
     useEffect(() => {
         if(Object.keys(errores).length === 0 && registrando ){
