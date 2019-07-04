@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import { navigate } from 'hookrouter';
+import { navigate } from 'hookrouter';
 
 import Header from 'components/Header/Header';
 import Footer from 'components/Footer/Footer';
@@ -26,13 +26,16 @@ const Perfil = (props) => {
             return fechaConFormato
     }
 
-    let redirigirEditarUsuario = (e) => {
-        e.preventDefault();
-        // navigate('/)
+    let redirigirEditarUsuario = () => {
+        navigate('/aplicacionInterna/editarUsuario');
     }
     let redirigirDesactivarUsuario = (e) => {
         e.preventDefault();
         // navigate('/)
+    }
+
+    let redirigirCambiarContrasena = () => {
+        navigate(`/aplicacionInterna/cambiarContrasena`);
     }
 
     return (
@@ -43,7 +46,7 @@ const Perfil = (props) => {
 
                 <div className="row p-5">
                     <div className="col-md-12">
-                        <h1 className="text-center text-brown">Bienvenido {informacionUsuario.primerNombre + ' ' + informacionUsuario.primerApellido} </h1>
+                        <h1 className="text-center text-brown">Bienvenido a <span className="font-weight-bold font-italic">pinto sobre ruedas</span> </h1>
                     </div>
                 </div>
 
@@ -63,6 +66,10 @@ const Perfil = (props) => {
                                 <a href="#" className="nav-link btn-brown text-yellow mx-1" data-toggle="tooltip" title="Desactivar usuario" data-placement="top" onClick={redirigirDesactivarUsuario}>
                                     <span className="fas fa-user-slash"></span>
                                 </a>
+
+                                <a href="#" className="nav-link btn-brown text-yellow mx-1" data-toggle="tooltip" title="Cambiar contraseña" data-placement="top" onClick={redirigirCambiarContrasena}>
+                                    <span className="fas fa-key"></span>
+                                </a>
                             </nav>
 
                         </div>
@@ -78,7 +85,7 @@ const Perfil = (props) => {
 
                         <p className="text-brown font-weight-bold">Fecha de nacimiento: <span className="font-weight-normal">{fechaNacimientoUsuarioActivo()}</span></p>
 
-                        <p className="text-brown font-weight-bold">Modalidad: <span className="font-weight-normal">{informacionUsuario.modalidad}</span></p>
+                        <p className="text-brown font-weight-bold">Modalidad: <span className="font-weight-normal text-capitalize">{informacionUsuario.modalidad}</span></p>
                     </div>
                         
                 </div>

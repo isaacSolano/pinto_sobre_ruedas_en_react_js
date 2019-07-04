@@ -10,13 +10,13 @@ import reglasValidacion from 'components/Usuarios/CambiarContrasena/CambiarContr
 
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
-const CambiarContrasena = (props) => {
+const CambiarContrasena = () => {
 
     const {valores, errores, admEnvio, admCambio} = useusuario(cambiarContrasena, reglasValidacion);
 
     async function cambiarContrasena(){
         let cambios = {
-            correoElectronico: props.correoElectronico,
+            correoElectronico: ServicioUsuarios.obtenerUsuarioActivo(),
             nuevaContrasena: valores.nuevaContrasena,
             temporal: false
         },
@@ -30,7 +30,7 @@ const CambiarContrasena = (props) => {
                 icon: 'success',
             });
 
-            navigate('/inicioSesion');
+            navigate('/aplicacionInterna');
         }else{
             Swal({
                 title: 'Hubo un problema en el proceso.',
@@ -45,8 +45,7 @@ const CambiarContrasena = (props) => {
         
             <main className="container p-6">
                 <div className="row p-5">
-                    <h1 className="text-center text-brown col-md-12">Notámos que utiliza una contraseña temporal.</h1>
-                    <h2 className="text-center text-brown col-md-12">Por favor cambiela antes de iniciar sesión.</h2>
+                    <h1 className="text-center text-brown col-md-12">Digite una nueva contraseña.</h1>
                 </div>
 
                 <form className="row" onSubmit={admEnvio} noValidate>

@@ -69,11 +69,8 @@ const _crearSesion = async(inicioSesionData) => {
          if(usuario.contrasena.valor === inicioSesionData.contrasena){
                response.contrasenaValida = true;
 
-               if(usuario.contrasena.temp){
-                    response.contrasenaTemp = true
-               }else{
-                    sessionStorage.setItem('usuarioActivo', inicioSesionData.correoElectronico);
-               }
+               response.contrasenaTemp = usuario.contrasena.temp;
+               sessionStorage.setItem('usuarioActivo', inicioSesionData.correoElectronico);
          }
      }
  

@@ -33,12 +33,12 @@ const InicioSesion = () => {
             }else{
                 if(response.contrasenaTemp){
                     Swal({
-                        title: 'Antes de iniciar sesión.',
+                        title: 'Antes de continuar.',
                         text: 'Por favor cambie su conraseña.',
                         icon: 'warning',
                     });
 
-                    navigate(`/cambiarContrasena/${valores.correoElectronico}`);
+                    navigate(`/aplicacionInterna/cambiarContrasena`);
                 }else{
                     Swal({
                         title: 'Credenciales verificadas.',
@@ -46,7 +46,7 @@ const InicioSesion = () => {
                         icon: 'success',
                     });
 
-                    navigate('/aplicacionInterna');
+                    navigate(`/aplicacionInterna`);
                 }
             }
         }
