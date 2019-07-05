@@ -6,7 +6,7 @@ const validar = (usuario) => {
     if(!usuario.primerNombre){errores.primerNombre = requerido}
     if(!usuario.primerApellido){errores.primerApellido = requerido}
     if(!usuario.fechaNacimiento){errores.fechaNacimiento = requerido}
-    if(usuario.modalidad == 0){errores.modalidad = requerido}
+    if(usuario.modalidad === 0){errores.modalidad = requerido}
 
     if(!usuario.correoElectronico){
         errores.correoElectronico = requerido

@@ -9,11 +9,23 @@ import useUsuario from 'components/Usuarios/useUsuario';
 import reglasValidacion from 'components/Usuarios/RegistroUsuarios/RegistroUsuariosRules';
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
-const RegistroUsuarios = () => {
+const RegistroUsuarios = (props) => {
 
     const {valores, errores, admEnvio, admCambio} = useUsuario(enviarRegistro, reglasValidacion);
 
     async function enviarRegistro(){
+
+        let rolNuevoUsuario;
+
+        switch(props.rolUsuario) {
+            case 0:
+                rolNuevoUsuario = 2;
+            break;
+
+            default:
+                rolNuevoUsuario = 1;
+            break;
+        }
         
         const nuevoUsuario = {
             primerNombre: valores.primerNombre,
@@ -25,7 +37,7 @@ const RegistroUsuarios = () => {
                 temp: false,
             },
             modalidad: valores.modalidad,
-            rol: 1,
+            rol: rolNuevoUsuario,
             desactivado: false,
         }
 
@@ -37,8 +49,6 @@ const RegistroUsuarios = () => {
                 text: "El usuario se ha registrado exitosamente en nuestro sistema.",
                 icon: "success",
                 });
-
-            navigate('/inicioSesion');
         }else{
             Swal({
                 title: "El usuario no se ha podido registar.",

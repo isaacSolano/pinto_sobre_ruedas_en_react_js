@@ -5,6 +5,8 @@ import Swal from 'sweetalert';
 import Header from 'components/Header/Header';
 import Footer from 'components/Footer/Footer';
 
+import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna'
+
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
 const Perfil = (props) => {
@@ -67,13 +69,13 @@ const Perfil = (props) => {
                     </div>
                 </div>
 
-                <div className="row border border-yellow rounded p-4">
+                <div className="row border border-yellow rounded p-4 mt-4">
                     
                     <div className="col-md-12 border-bottom border-yellow p-4">
 
                         <div className="row">
 
-                            <h2 className="col-md-6 justify-content-start text-brown">Informacion personal</h2>
+                            <h2 className="col-md-6 justify-content-start text-brown">Información personal</h2>
                             
                             <nav className="col-md-6 justify-content-end nav nav-pills ">
                                 <a href="#" className="nav-link btn-brown text-yellow mx-1" data-toggle="tooltip" title="Editar perfil" data-placement="top" onClick={redirigirEditarUsuario}>
@@ -98,7 +100,7 @@ const Perfil = (props) => {
 
                         <p className="text-brown font-weight-bold">Primer apellido: <span className="font-weight-normal">{informacionUsuarioActivo.primerApellido}</span></p>
                     
-                        <p className="text-brown font-weight-bold">Correo electronico <span className="font-weight-normal">{informacionUsuarioActivo.correoElectronico}</span></p>
+                        <p className="text-brown font-weight-bold">Correo electrónico <span className="font-weight-normal">{informacionUsuarioActivo.correoElectronico}</span></p>
 
                         <p className="text-brown font-weight-bold">Fecha de nacimiento: <span className="font-weight-normal">{fechaNacimientoUsuarioActivo()}</span></p>
 
@@ -106,6 +108,8 @@ const Perfil = (props) => {
                     </div>
                         
                 </div>
+
+                <NavegacionInterna usuarioActivo={props.infoUsuarioActivo.correoElectronico} />
 
             </main>
 
