@@ -8,6 +8,7 @@ import Perfil from 'components/Usuarios/Perfil/Perfil';
 import CambiarContrasena from 'components/Usuarios/CambiarContrasena/CambiarContrasena';
 import EditarUsuario from 'components/Usuarios/EditarUsuario/EditarUsuario';
 import RegistroColaboradores from 'components/Usuarios/RegistroUsuarios/RegistroUsuarios';
+import ListarUsuarios from 'components/Usuarios/ListarUsuarios/ListarUsuarios';
 
 import NotFound from 'components/404/404'; 
 
@@ -62,6 +63,7 @@ const AplicacionInterna = () => {
         '/cambiarContrasena': () => <CambiarContrasena usuarioActivo={usuarioActivo} />,
         '/editarUsuario': () => <EditarUsuario infoUsuarioActivo={infoUsuarioActivo} />,
         '/registroColaboradores': () => <RegistroColaboradores rolUsuario={infoUsuarioActivo.rol} />,
+        '/listarUsuarios': () => <ListarUsuarios rolUsuario={infoUsuarioActivo.rol} usuarioActivo={usuarioActivo} />,
     }
 
     const routeResult = useRoutes(internRoutes);

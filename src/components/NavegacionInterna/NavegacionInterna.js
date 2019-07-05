@@ -22,9 +22,12 @@ const NavegacionInterna = (props) => {
         navigate('/aplicacionInterna/registroColaboradores');
     }
 
+    let redirigirListaUsuarios = () => {
+        navigate('/aplicacionInterna/listarUsuarios');
+    }
+
     return (
         <>
-        <main>
             <div className="row border border-yellow rounded p-4 mt-4">
                 <div className="col-md-12 border-bottom border-yellow p-4">
                     <h2 className="col-md-12 text-brown">Más opciones</h2>
@@ -32,13 +35,17 @@ const NavegacionInterna = (props) => {
 
                 <div className="col-md-12 p-4">
                     {rolUsuarioActivo === 0 ? (
-                        <input type="button" value="Registrar colaborador" className="btn btn-brown text-yellow" onClick={redirigirRegistroColaborador} />
+                        <div>
+                            <input type="button" value="Registrar colaborador" className="btn btn-brown text-yellow mx-2" onClick={redirigirRegistroColaborador} />
+                            
+                            <input type="button" value="Listar usuarios" className="btn btn-brown text-yellow mx-2" onClick={redirigirListaUsuarios} />
+                        </div>
                     ) : (
                         rolUsuarioActivo === 1 ? (
                             <p>Cliente</p>   
                         ) : (
                             rolUsuarioActivo === 2 ? (
-                                <p>Colaborador</p>
+                                <input type="button" value="Listar usuarios" className="btn btn-brown text-yellow mx-2" onClick={redirigirListaUsuarios} />
                             ) : (
                                 <p>nada</p>
                             )
@@ -46,7 +53,6 @@ const NavegacionInterna = (props) => {
                     )}
                 </div>
             </div>
-        </main>
         </>
     );
 };
