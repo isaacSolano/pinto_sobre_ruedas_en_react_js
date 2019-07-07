@@ -60,9 +60,43 @@ const ListarUsuarios = (props) => {
                 navigate('/aplicacionInterna');
             }
         });
+    }
 
-        
+    let cambiarRol = async(e) => {
+        let usuarioActual = JSON.parse(e.target.name),
+        nuevoRol = false;
 
+        switch (usuarioActual.rol){
+            case 1:
+                nuevoRol = 2;
+            break;
+
+            case 2:
+                nuevoRol = 1;
+            break;
+
+            default:
+                nuevoRol = 1;
+        }
+
+        usuarioActual.rol = nuevoRol;
+
+        let response = await ServicioUsuarios.actualizarUsuario(usuarioActual);
+
+        if(response){
+            Swal({
+                title: 'El cambio se guardó correctamente',
+                text: 'Ahora el usuario tendra permisos distintos',
+                icon: 'success',
+            })
+        }else{
+            Swal({
+                title: 'No se pudo completar su petición',
+                text: 'Hubo un problema en el proceso, intente mas tarde',
+                icon: 'error',
+            });
+        }
+        navigate('/aplicacionInterna');
     }
 
     return (
@@ -116,7 +150,7 @@ const ListarUsuarios = (props) => {
                                                         
                                                         usuario.rol === 1 ? (
                                                             <div>
-                                                                <input type="button" value="Convertir a colaborador" className="btn btn-brown text-yellow mx-2" />
+                                                                <input type="button" value="Convertir a colaborador" name={JSON.stringify(usuario)} onClick={cambiarRol} className="btn btn-brown text-yellow mx-2" />
 
                                                                 {usuario.desactivado === 1 || usuario.desactivado === 2 ? (
                                                                     <input type="button" value="El usuario ya está desactivado" className="btn btn-danger mx-2" disabled />
@@ -128,7 +162,7 @@ const ListarUsuarios = (props) => {
                                                         ) : (
                                                         usuario.rol === 2 ? (
                                                             <div>
-                                                                <input type="button" value="Convertir a cliente" className="btn btn-brown text-yellow mx-2" />
+                                                                <input type="button" value="Convertir a cliente" name={JSON.stringify(usuario)} onClick={cambiarRol} className="btn btn-brown text-yellow mx-2" />
 
                                                                 {usuario.desactivado === 1 || usuario.desactivado === 2 ? (
                                                                     <input type="button" value="El usuario ya está desactivado" className="btn btn-danger mx-2" disabled />
