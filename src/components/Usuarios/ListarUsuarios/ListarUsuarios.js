@@ -5,6 +5,7 @@ import Header from 'components/Header/Header'
 import Footer from 'components/Footer/Footer'
 
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
+import Swal from 'sweetalert';
 
 const ListarUsuarios = (props) => {
 
@@ -23,6 +24,46 @@ const ListarUsuarios = (props) => {
 
         obtenerTodosLosUsuarios();
     }, [props.usuarioActivo]);
+
+    let desactivarUsuario = async(e) => {
+        let id = e.target.name,
+            desactData = {};
+
+        Swal({
+            title: '¿Desea desactivar este usuario?',
+            text: 'Describa la razón de la desactivación',
+            content: 'input',
+            icon: 'warning',
+            dangerMode: true,
+            buttons: ["No", "Sí"],
+        }).then ( async(confirmacion) => {
+            if(confirmacion){
+
+                desactData = {
+                    desactivado: 2,
+                    motivo: confirmacion
+                }
+                const response = await ServicioUsuarios.actDesactUsuario(id, desactData);
+                if(response){
+                    Swal({
+                        title: 'El usuario se desactivó correctamente',
+                        text: 'El motivo de la desactivación se envió correctamente',
+                        icon: 'success',
+                    })
+                }else{
+                    Swal({
+                        title: 'Tuvimos un problema en el proceso',
+                        text: 'El usuario no se desactivó, intente de nuevo.',
+                        icon: 'error',
+                    })
+                }
+                navigate('/aplicacionInterna');
+            }
+        });
+
+        
+
+    }
 
     return (
         <>
@@ -77,10 +118,10 @@ const ListarUsuarios = (props) => {
                                                             <div>
                                                                 <input type="button" value="Convertir a colaborador" className="btn btn-brown text-yellow mx-2" />
 
-                                                                {usuario.desactivado ? (
+                                                                {usuario.desactivado === 1 || usuario.desactivado === 2 ? (
                                                                     <input type="button" value="El usuario ya está desactivado" className="btn btn-danger mx-2" disabled />
                                                                 ) : (
-                                                                    <input type="button" value="Desactivar" className="btn btn-danger mx-2" />
+                                                                    <input type="button" value="Desactivar" className="btn btn-danger mx-2" name={usuario.correoElectronico} onClick={desactivarUsuario} />
                                                                 )}
 
                                                             </div>
@@ -89,10 +130,10 @@ const ListarUsuarios = (props) => {
                                                             <div>
                                                                 <input type="button" value="Convertir a cliente" className="btn btn-brown text-yellow mx-2" />
 
-                                                                {usuario.desactivado ? (
+                                                                {usuario.desactivado === 1 || usuario.desactivado === 2 ? (
                                                                     <input type="button" value="El usuario ya está desactivado" className="btn btn-danger mx-2" disabled />
                                                                 ) : (
-                                                                    <input type="button" value="Desactivar" className="btn btn-danger mx-2" />
+                                                                    <input type="button" value="Desactivar" className="btn btn-danger mx-2" name={usuario.correoElectronico} onClick={desactivarUsuario} />
                                                                 )}
 
                                                             </div>
@@ -104,10 +145,10 @@ const ListarUsuarios = (props) => {
                                                     ) : (
                                                         props.rolUsuario === 2 ? (
 
-                                                            usuario.desactivado ? (
+                                                            usuario.desactivado === 1 || usuario.desactivado === 2 ? (
                                                                 <input type="button" value="El usuario ya está desactivado" className="btn btn-danger mx-2" disabled />
                                                             ) : (
-                                                                <input type="button" value="Desactivar" className="btn btn-danger mx-2" />
+                                                                <input type="button" value="Desactivar" className="btn btn-danger mx-2" name={usuario.correoElectronico} onClick={desactivarUsuario} />
                                                             )
                                                         ) : (
                                                             <span className="font-weight-bold text-danger">No tienes accesos para tomar acciones sobre estos usuarios</span>

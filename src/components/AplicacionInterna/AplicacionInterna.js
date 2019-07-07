@@ -26,34 +26,6 @@ const AplicacionInterna = () => {
         obtenerInfoUsuarioActivo();
     }, [usuarioActivo]);
 
-    if(infoUsuarioActivo.desactivado){
-        Swal({
-            title: 'Su perfil se encuentra desactivado.',
-            text: '¿Desea reacttivar su perfil para continuar?',
-            icon: 'warning',
-            buttons: ['Mantener perfil desactivado', 'Reactivar perfil'],
-        }).then( async(confirmacion) => {
-            if(confirmacion){
-                await ServicioUsuarios.actDesactUsuario(usuarioActivo);
-
-                Swal({
-                    title: 'Su perfil se ha reactivado',
-                    text: 'Bienvenido a pinto sobre ruedas',
-                    icon: 'success'
-                })
-            }else{
-                ServicioUsuarios.cerrarSesion();
-                navigate('/');
-
-                Swal({
-                    title: 'Su perfil se mantiene desactivado',
-                    text: 'Gracias por visiar pinto sobre ruedas',
-                    icon: 'success',
-                });
-            }
-        });
-    }
-
     if(!usuarioActivo){
         navigate('/');
     }

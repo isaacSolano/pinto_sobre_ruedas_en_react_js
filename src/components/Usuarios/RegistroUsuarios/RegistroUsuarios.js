@@ -32,13 +32,12 @@ const RegistroUsuarios = (props) => {
             primerApellido: valores.primerApellido,
             correoElectronico: valores.correoElectronico,
             fechaNacimiento: valores.fechaNacimiento,
-            contrasena: {
-                valor: valores.contrasena,
-                temp: false,
-            },
+            contrasena: valores.contrasena,
+            contrasenaTemp: false,
             modalidad: valores.modalidad,
             rol: rolNuevoUsuario,
-            desactivado: false,
+            desactivado: 0,
+            motivoDesact: '',
         }
 
         let response = await ServicioUsuarios.registrarUsuario(nuevoUsuario);

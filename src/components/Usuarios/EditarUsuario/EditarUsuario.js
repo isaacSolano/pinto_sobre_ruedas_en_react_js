@@ -17,8 +17,11 @@ const EditarUsuario = (props) => {
     const {valores, errores, admEnvio, admCambio} = useEditarUsuario(enviarEditarUsuario, reglasValidacion, infoUsuarioActivo);
 
     async function enviarEditarUsuario(){
-        let response = await ServicioUsuarios.actualizarUsuario(valores);
+        valores.desactivado = 0;
+        valores.motivoDesact = "";
 
+        let response = await ServicioUsuarios.actualizarUsuario(valores);
+    
         if(response){
             Swal({
                 title: 'Se guardaron los cambios.',

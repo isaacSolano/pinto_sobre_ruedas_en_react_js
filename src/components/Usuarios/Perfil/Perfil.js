@@ -13,6 +13,63 @@ const Perfil = (props) => {
 
     const informacionUsuarioActivo = props.infoUsuarioActivo;
 
+    switch (informacionUsuarioActivo.desactivado){
+        case 1:
+            Swal({
+                title: 'Su perfil se encuentra desactivado.',
+                text: '¿Desea reacttivar su perfil para continuar?',
+                icon: 'warning',
+                dangerMode: true,
+                buttons: ['Mantener perfil desactivado', 'Reactivar perfil'],
+            }).then( async(confirmacion) => {
+                if(confirmacion){
+                    let reactData = {
+                        desactivado: 0,
+                        motivo: "",
+                    }
+                    await ServicioUsuarios.actDesactUsuario(informacionUsuarioActivo.correoElectronico, reactData);
+                    Swal({
+                        title: 'Su perfil se ha reactivado',
+                        text: 'Bienvenido a pinto sobre ruedas',
+                        icon: 'success'
+                    })
+                }else{
+                    ServicioUsuarios.cerrarSesion();
+                    navigate('/');
+    
+                    Swal({
+                        title: 'Su perfil se mantiene desactivado',
+                        text: 'Gracias por visiar pinto sobre ruedas',
+                        icon: 'success',
+                    });
+                }
+            });
+        break;
+
+        case 2: 
+            Swal({
+                title: 'Su perfil fue desactivado por la  administración',
+                text: `Razon de la desactivación: "${informacionUsuarioActivo.motivoDesact}". Por favor actualice sus datos para continuar`,
+                icon: 'warning',
+                dangerMode: true,
+                buttons: ['Mantener perfil desactivado', 'Editar información']
+            }).then( (confirmacion) => {
+                if(confirmacion){
+                    navigate('/aplicacionInterna/editarUsuario');
+                }else{
+                    ServicioUsuarios.cerrarSesion();
+                    navigate('/');
+                    
+                    Swal({
+                        title: 'Su perfil se mantiene desactivado',
+                        text: 'Gracias por visiar pinto sobre ruedas',
+                        icon: 'success',
+                    });
+                }
+            })
+        break;
+    }
+
     let fechaNacimientoUsuarioActivo = () => {
         let mesesDelAnio = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
             fechaConFormato =  new Date(informacionUsuarioActivo.fechaNacimiento).getDate() + 1 + ' ' + mesesDelAnio[new Date(informacionUsuarioActivo.fechaNacimiento).getMonth()] + ' ' + new Date(informacionUsuarioActivo.fechaNacimiento).getFullYear();
@@ -39,8 +96,8 @@ const Perfil = (props) => {
                     text: 'Gracias por compartir sus historias con nosotros.',
                     icon: 'success',
                 });
-
-                await ServicioUsuarios.actDesactUsuario(informacionUsuarioActivo.correoElectronico);
+                let desactData = {desactivado: 1, motivoDesact: ''}
+                await ServicioUsuarios.actDesactUsuario(informacionUsuarioActivo.correoElectronico, desactData);
                 await ServicioUsuarios.cerrarSesion();
                 navigate('/');
             }else{

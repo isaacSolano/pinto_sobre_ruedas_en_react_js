@@ -62,15 +62,13 @@ const _crearSesion = async(inicioSesionData) => {
              usuarioValido: false, 
              contrasenaValida: false,
              contrasenaTemp: false,
-             desact: false,
          };
  
      if(usuario){
          response.usuarioValido = true;
-         if(usuario.contrasena.valor === inicioSesionData.contrasena){
+         if(usuario.contrasena === inicioSesionData.contrasena){
                response.contrasenaValida = true;
-               response.contrasenaTemp = usuario.contrasena.temp;
-               response.desact = usuario.desactivado;
+               response.contrasenaTemp = usuario.contrasenaTemp;
 
                sessionStorage.setItem('usuarioActivo', inicioSesionData.correoElectronico);
          }
@@ -88,8 +86,8 @@ const _cambiarContrasena = async(reestablecerContrasenaData) => {
           done = false;
 
      if(usuario){
-          usuario.contrasena.valor = reestablecerContrasenaData.nuevaContrasena;
-          usuario.contrasena.temp = reestablecerContrasenaData.temporal;
+          usuario.contrasena = reestablecerContrasenaData.nuevaContrasena;
+          usuario.contrasenaTemp = reestablecerContrasenaData.temporal;
           
           done = true
 
@@ -115,12 +113,15 @@ const _obtenerUsuarioActivo = () => {
      return usuarioActivo
 }
 
-const _actDesactUsuario = async(id) => {
+const _actDesactUsuario = async(id, nuevoValor) => {
      let usuario = await _obtenerUsuarioById(id);
 
-     usuario.desactivado = !usuario.desactivado;
+     usuario.desactivado = nuevoValor.desactivado;
+     usuario.motivoDesact = nuevoValor.motivo;
 
-     API.actualizarUsuario(usuario);
+     let response = API.actualizarUsuario(usuario);
+
+     return response
 
 }
 
