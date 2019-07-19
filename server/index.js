@@ -21,9 +21,11 @@ mongoose.connect(dburl, { useNewUrlParser: true } ).then(
      
 usuarios = require('./usuarios.component/usuarios.router');
 correoElectronico = require('./correoElectronico.component/correoElectronico.router');
+publicaciones = require('./publicaciones.component/publicaciones.router');
 
 app.use('/api', usuarios);
 app.use('/api', correoElectronico);
+app.use('/api', publicaciones);
 
 
 app.listen(PORT, () =>

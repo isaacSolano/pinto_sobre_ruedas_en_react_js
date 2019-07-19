@@ -1,23 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import {navigate} from 'hookrouter';
 
+import MainHeader from 'components/Header/Header';
 
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
 const NavegacionInterna = (props) => {
 
-    const [rolUsuarioActivo, setRolUsurioActivo] = useState();
-
-    useEffect( () => {
-        const obtenerRolUsuarioActivo = async() => {
-            let infoUsuario = await ServicioUsuarios.obtenerUsuarioById(props.usuarioActivo);
-
-            setRolUsurioActivo(infoUsuario.rol);
-        }
-
-        obtenerRolUsuarioActivo();
-    }, [props.usuarioActivo]);
-
+    const rolUsuarioActivo = props.usuarioActivo.rol;
+    
     let redirigirRegistroColaborador = () => {
         navigate('/aplicacionInterna/registroColaboradores');
     }
@@ -26,33 +17,45 @@ const NavegacionInterna = (props) => {
         navigate('/aplicacionInterna/listarUsuarios');
     }
 
+    let redirigirRegistrarPublicacion = () => {
+        navigate('/aplicacionInterna/registrarPublicacion');
+    }
+
     return (
         <>
-            <div className="row border border-yellow rounded p-4 mt-4">
-                <div className="col-md-12 border-bottom border-yellow p-4">
-                    <h2 className="col-md-12 text-brown">Más opciones</h2>
-                </div>
+            <header className="sticky-top bg-brown border-yellow border-bottom">
 
-                <div className="col-md-12 p-4">
+                <MainHeader />
+
+                <div className="container">
+
                     {rolUsuarioActivo === 0 ? (
-                        <div>
-                            <input type="button" value="Registrar colaborador" className="btn btn-brown text-yellow mx-2" onClick={redirigirRegistroColaborador} />
+                        <nav className="row navbar mx-auto">
+                            <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirRegistroColaborador}>Registrar colaborador</a>
                             
-                            <input type="button" value="Listar usuarios" className="btn btn-brown text-yellow mx-2" onClick={redirigirListaUsuarios} />
-                        </div>
+                            <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirListaUsuarios}>Lista usuarios</a>
+
+                            <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirRegistrarPublicacion}>Nueva publicación</a>
+                        </nav>
                     ) : (
                         rolUsuarioActivo === 1 ? (
-                            <p>Cliente</p>   
+                            <nav className="row navbar mx-auto">
+                                <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirRegistrarPublicacion}>Nueva publicación</a>
+                            </nav>
                         ) : (
                             rolUsuarioActivo === 2 ? (
-                                <input type="button" value="Listar usuarios" className="btn btn-brown text-yellow mx-2" onClick={redirigirListaUsuarios} />
+                                <nav className="row navbar mx-auto">
+                                    <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirListaUsuarios}>Lista usuarios</a>
+
+                                    <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirRegistrarPublicacion}>Nueva publicación</a>
+                                </nav>
                             ) : (
                                 <p>nada</p>
                             )
                         )
                     )}
                 </div>
-            </div>
+            </header>
         </>
     );
 };

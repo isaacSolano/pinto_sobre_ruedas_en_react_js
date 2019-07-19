@@ -2,7 +2,7 @@ import React from 'react';
 import Swal from 'sweetalert';
 import {navigate} from 'hookrouter';
 
-import Header from 'components/Header/Header';
+import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna';
 import Footer from 'components/Footer/Footer';
 
 import useusuario from 'components/Usuarios/useUsuario';
@@ -16,7 +16,7 @@ const CambiarContrasena = (props) => {
 
     async function cambiarContrasena(){
         let cambios = {
-            correoElectronico: props.usuarioActivo,
+            correoElectronico: props.usuarioActivo.correoElectronico,
             nuevaContrasena: valores.nuevaContrasena,
             temporal: false
         },
@@ -41,7 +41,7 @@ const CambiarContrasena = (props) => {
     }
     return(
         <>
-            <Header />
+            <NavegacionInterna usuarioActivo={props.usuarioActivo} />
         
             <main className="container p-6">
                 <div className="row p-5">

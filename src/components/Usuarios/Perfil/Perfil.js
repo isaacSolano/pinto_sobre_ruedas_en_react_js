@@ -11,9 +11,9 @@ import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
 const Perfil = (props) => {
 
-    const informacionUsuarioActivo = props.infoUsuarioActivo;
+    const infoUsuarioActivo = props.usuarioActivo;
 
-    switch (informacionUsuarioActivo.desactivado){
+    switch (infoUsuarioActivo.desactivado){
         case 1:
             Swal({
                 title: 'Su perfil se encuentra desactivado.',
@@ -27,7 +27,7 @@ const Perfil = (props) => {
                         desactivado: 0,
                         motivo: "",
                     }
-                    await ServicioUsuarios.actDesactUsuario(informacionUsuarioActivo.correoElectronico, reactData);
+                    await ServicioUsuarios.actDesactUsuario(infoUsuarioActivo.correoElectronico, reactData);
                     Swal({
                         title: 'Su perfil se ha reactivado',
                         text: 'Bienvenido a pinto sobre ruedas',
@@ -49,7 +49,7 @@ const Perfil = (props) => {
         case 2: 
             Swal({
                 title: 'Su perfil fue desactivado por la  administración',
-                text: `Razon de la desactivación: "${informacionUsuarioActivo.motivoDesact}". Por favor actualice sus datos para continuar`,
+                text: `Razon de la desactivación: "${infoUsuarioActivo.motivoDesact}". Por favor actualice sus datos para continuar`,
                 icon: 'warning',
                 dangerMode: true,
                 buttons: ['Mantener perfil desactivado', 'Editar información']
@@ -72,7 +72,7 @@ const Perfil = (props) => {
 
     let fechaNacimientoUsuarioActivo = () => {
         let mesesDelAnio = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-            fechaConFormato =  new Date(informacionUsuarioActivo.fechaNacimiento).getDate() + 1 + ' ' + mesesDelAnio[new Date(informacionUsuarioActivo.fechaNacimiento).getMonth()] + ' ' + new Date(informacionUsuarioActivo.fechaNacimiento).getFullYear();
+            fechaConFormato =  new Date(infoUsuarioActivo.fechaNacimiento).getDate() + 1 + ' ' + mesesDelAnio[new Date(infoUsuarioActivo.fechaNacimiento).getMonth()] + ' ' + new Date(infoUsuarioActivo.fechaNacimiento).getFullYear();
 
             return fechaConFormato
     }
@@ -97,7 +97,7 @@ const Perfil = (props) => {
                     icon: 'success',
                 });
                 let desactData = {desactivado: 1, motivoDesact: ''}
-                await ServicioUsuarios.actDesactUsuario(informacionUsuarioActivo.correoElectronico, desactData);
+                await ServicioUsuarios.actDesactUsuario(infoUsuarioActivo.correoElectronico, desactData);
                 await ServicioUsuarios.cerrarSesion();
                 navigate('/');
             }else{
@@ -116,7 +116,7 @@ const Perfil = (props) => {
 
     return (
         <>
-            <Header />
+            <NavegacionInterna usuarioActivo={infoUsuarioActivo} />
 
             <main className="container p-6">
 
@@ -153,20 +153,18 @@ const Perfil = (props) => {
                     </div>
 
                     <div className="col-md-12 mt-4">
-                        <p className="text-brown font-weight-bold">Primer nombre: <span className="font-weight-normal">{informacionUsuarioActivo.primerNombre}</span></p>
+                        <p className="text-brown font-weight-bold">Primer nombre: <span className="font-weight-normal">{infoUsuarioActivo.primerNombre}</span></p>
 
-                        <p className="text-brown font-weight-bold">Primer apellido: <span className="font-weight-normal">{informacionUsuarioActivo.primerApellido}</span></p>
+                        <p className="text-brown font-weight-bold">Primer apellido: <span className="font-weight-normal">{infoUsuarioActivo.primerApellido}</span></p>
                     
-                        <p className="text-brown font-weight-bold">Correo electrónico <span className="font-weight-normal">{informacionUsuarioActivo.correoElectronico}</span></p>
+                        <p className="text-brown font-weight-bold">Correo electrónico <span className="font-weight-normal">{infoUsuarioActivo.correoElectronico}</span></p>
 
                         <p className="text-brown font-weight-bold">Fecha de nacimiento: <span className="font-weight-normal">{fechaNacimientoUsuarioActivo()}</span></p>
 
-                        <p className="text-brown font-weight-bold">Modalidad: <span className="font-weight-normal text-capitalize">{informacionUsuarioActivo.modalidad}</span></p>
+                        <p className="text-brown font-weight-bold">Modalidad: <span className="font-weight-normal text-capitalize">{infoUsuarioActivo.modalidad}</span></p>
                     </div>
                         
                 </div>
-
-                <NavegacionInterna usuarioActivo={props.infoUsuarioActivo.correoElectronico} />
 
             </main>
 

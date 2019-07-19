@@ -2,7 +2,7 @@ import React from 'react';
 import {navigate} from 'hookrouter';
 import Swal from 'sweetalert';
 
-import Header from 'components/Header/Header';
+import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna';
 import Footer from 'components/Footer/Footer';
 
 import useEditarUsuario from 'components/Usuarios/EditarUsuario/useEditarUsuario';
@@ -12,7 +12,7 @@ import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
 const EditarUsuario = (props) => {
 
-    const infoUsuarioActivo = props.infoUsuarioActivo;
+    const infoUsuarioActivo = props.usuarioActivo;
 
     const {valores, errores, admEnvio, admCambio} = useEditarUsuario(enviarEditarUsuario, reglasValidacion, infoUsuarioActivo);
 
@@ -41,7 +41,7 @@ const EditarUsuario = (props) => {
 
     return (
         <>
-            <Header />
+            <NavegacionInterna usuarioActivo={infoUsuarioActivo} />
 
             <main className="container p-6">
 

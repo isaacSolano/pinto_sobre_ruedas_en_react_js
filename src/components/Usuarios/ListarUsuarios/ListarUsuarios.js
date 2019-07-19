@@ -1,19 +1,20 @@
 import React, {useState, useEffect} from 'react';
 import {navigate} from 'hookrouter';
 
-import Header from 'components/Header/Header'
+import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna'
 import Footer from 'components/Footer/Footer'
 
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 import Swal from 'sweetalert';
 
 const ListarUsuarios = (props) => {
+    
+    const [listaUsuarios, setListaUsuarios] = useState([]),
+        infoUsuarioActivo = props.usuarioActivo;
 
-    if(props.rolUsuario === 1){
+    if(infoUsuarioActivo.rol === 1){
         navigate('/aplicacionInterna');
     }
-
-    const [listaUsuarios, setListaUsuarios] = useState([]);
 
     useEffect( () => {
         let obtenerTodosLosUsuarios = async() => {
@@ -101,7 +102,7 @@ const ListarUsuarios = (props) => {
 
     return (
         <>
-            <Header />
+            <NavegacionInterna usuarioActivo={infoUsuarioActivo} />
             
             <main className="container">
 
@@ -146,7 +147,7 @@ const ListarUsuarios = (props) => {
                                                 </td>
 
                                                 <td className="text-center text-brown">
-                                                    {props.rolUsuario === 0 ? (
+                                                    {infoUsuarioActivo.rol === 0 ? (
                                                         
                                                         usuario.rol === 1 ? (
                                                             <div>
@@ -177,7 +178,7 @@ const ListarUsuarios = (props) => {
                                                         )
                                                         
                                                     ) : (
-                                                        props.rolUsuario === 2 ? (
+                                                        infoUsuarioActivo.rol === 2 ? (
 
                                                             usuario.desactivado === 1 || usuario.desactivado === 2 ? (
                                                                 <input type="button" value="El usuario ya está desactivado" className="btn btn-danger mx-2" disabled />

@@ -3,6 +3,7 @@ import Swal from 'sweetalert';
 import { navigate } from 'hookrouter';
 
 import Header from 'components/Header/Header';
+import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna';
 import Footer from 'components/Footer/Footer';
 
 import useUsuario from 'components/Usuarios/useUsuario';
@@ -17,7 +18,7 @@ const RegistroUsuarios = (props) => {
 
         let rolNuevoUsuario;
 
-        switch(props.rolUsuario) {
+        switch(props.usuarioActivo.rol) {
             case 0:
                 rolNuevoUsuario = 2;
             break;
@@ -59,7 +60,11 @@ const RegistroUsuarios = (props) => {
 
     return (
         <> 
-            <Header />
+            {props.usuarioActivo === undefined ? 
+                (<Header /> ) 
+                    :
+                (<NavegacionInterna usuarioActivo={props.usuarioActivo} />)
+            }
 
             <main className="container p-6">
 

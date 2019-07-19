@@ -10,6 +10,8 @@ import EditarUsuario from 'components/Usuarios/EditarUsuario/EditarUsuario';
 import RegistroColaboradores from 'components/Usuarios/RegistroUsuarios/RegistroUsuarios';
 import ListarUsuarios from 'components/Usuarios/ListarUsuarios/ListarUsuarios';
 
+import RegistrarPublicacion from 'components/Publicaciones/RegistrarPublicacion/RegistrarPublicacion';
+
 import NotFound from 'components/404/404'; 
 
 const AplicacionInterna = () => {
@@ -31,11 +33,12 @@ const AplicacionInterna = () => {
     }
 
     const internRoutes = {
-        '/': () => <Perfil infoUsuarioActivo={infoUsuarioActivo} />,
-        '/cambiarContrasena': () => <CambiarContrasena usuarioActivo={usuarioActivo} />,
-        '/editarUsuario': () => <EditarUsuario infoUsuarioActivo={infoUsuarioActivo} />,
-        '/registroColaboradores': () => <RegistroColaboradores rolUsuario={infoUsuarioActivo.rol} />,
-        '/listarUsuarios': () => <ListarUsuarios rolUsuario={infoUsuarioActivo.rol} usuarioActivo={usuarioActivo} />,
+        '/': () => <Perfil usuarioActivo={infoUsuarioActivo} />,
+        '/cambiarContrasena': () => <CambiarContrasena usuarioActivo={infoUsuarioActivo} />,
+        '/editarUsuario': () => <EditarUsuario usuarioActivo={infoUsuarioActivo} />,
+        '/registroColaboradores': () => <RegistroColaboradores usuarioActivo={infoUsuarioActivo} />,
+        '/listarUsuarios': () => <ListarUsuarios usuarioActivo={infoUsuarioActivo} />,
+        '/registrarPublicacion': () => <RegistrarPublicacion usuarioActivo={infoUsuarioActivo} />,
     }
 
     const routeResult = useRoutes(internRoutes);
