@@ -27,13 +27,18 @@ const RegistrarPublicacion = (props) => {
     });
 
     async function enviarRegistrarPublicacion(){
+        let mesesDelAnio = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        fechaConFormato =  `${new Date().getDate()}/${mesesDelAnio[new Date().getMonth()]}/${new Date().getFullYear()} a las ${new Date().getHours()}:${new Date().getMinutes()}`;
+
+        console.log(fechaConFormato)
+        
         valores.usuario = props.usuarioActivo.correoElectronico;
-        valores.fecha = new Date();
+        valores.fecha = fechaConFormato;
         valores.desactivado = 0;
         valores.motivoDesact = '';
         
         if(archivos && archivos.length < 5){
-            let status = await ServicioPublicaciones.registrarPublicacion(archivos, valores)
+            await ServicioPublicaciones.registrarPublicacion(archivos, valores)
             .then( async (res) => {
                 await 
                 Swal({
@@ -41,7 +46,7 @@ const RegistrarPublicacion = (props) => {
                     text: 'Sus datos se han registrado',
                     icon: 'success',
                 })
-                navigate('/aplicacionInterna')
+                navigate('/aplicacionInterna');
             })
         }else{
             Swal({

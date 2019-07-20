@@ -2,10 +2,12 @@ import React from 'react';
 import { navigate } from 'hookrouter';
 import Swal from 'sweetalert';
 
-import Header from 'components/Header/Header';
-import Footer from 'components/Footer/Footer';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna'
+import Footer from 'components/Footer/Footer';
+
 
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
@@ -135,17 +137,26 @@ const Perfil = (props) => {
                             <h2 className="col-md-6 justify-content-start text-brown">Información personal</h2>
                             
                             <nav className="col-md-6 justify-content-end nav nav-pills ">
-                                <a href="#" className="nav-link btn-brown text-yellow mx-1" data-toggle="tooltip" title="Editar perfil" data-placement="top" onClick={redirigirEditarUsuario}>
-                                    <span className="fas fa-user-edit"></span>
-                                </a>
-                                
-                                <a href="#" className="nav-link btn-brown text-yellow mx-1" data-toggle="tooltip" title="Desactivar usuario" data-placement="top" onClick={redirigirDesactivarUsuario}>
-                                    <span className="fas fa-user-slash"></span>
-                                </a>
+                                <OverlayTrigger placement="top" overlay={<Tooltip>Editar información</Tooltip>}>
+                                    <a href="#" className="nav-link btn-brown text-yellow mx-1" onClick={redirigirEditarUsuario}>
+                                        <span className="fas fa-user-edit"></span>
+                                    </a>
+                                </OverlayTrigger>
 
-                                <a href="#" className="nav-link btn-brown text-yellow mx-1" data-toggle="tooltip" title="Cambiar contraseña" data-placement="top" onClick={redirigirCambiarContrasena}>
-                                    <span className="fas fa-key"></span>
-                                </a>
+                                <OverlayTrigger placement="top" overlay={<Tooltip>Desactivar usuario</Tooltip>}>
+                                    <a href="#" className="nav-link btn-brown text-yellow mx-1" onClick={redirigirDesactivarUsuario}>
+                                        <span className="fas fa-user-slash"></span>
+                                    </a>
+                                </OverlayTrigger>
+
+                                <OverlayTrigger placement="top" overlay={<Tooltip>Cambiar contraseña</Tooltip>}>
+                                    <a href="#" className="nav-link btn-brown text-yellow mx-1" onClick={redirigirCambiarContrasena}>
+                                        <span className="fas fa-key"></span>
+                                    </a>
+                                </OverlayTrigger>
+                                
+                                                                
+
                             </nav>
 
                         </div>

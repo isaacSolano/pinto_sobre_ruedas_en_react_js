@@ -31,10 +31,30 @@ const _registrarPublicacion = async(imagenesPublicacion, informacionPublicacion)
         };
     }
 
-}   
+}
+
+const _obtenerPublicacionesUsuarioActivo = async(usuarioActivo) => {
+    let response = false,
+    publicacionesUsuarioActivo = {};
+
+    await axios.get(`http://localhost:5000/api/obtener_publicaciones_usuario/${usuarioActivo}`)
+    .then( (res) => {
+        publicacionesUsuarioActivo = res.data;
+    })
+    .catch( (err) => {
+        response = err;
+    })
+
+    if(!response){
+        return publicacionesUsuarioActivo
+    }else{
+        return response
+    }
+}
 
 const API = {
     registrarPublicacion: _registrarPublicacion,
+    obtenerPublicacionesUsuarioActivo: _obtenerPublicacionesUsuarioActivo,
 };
 
 export default API;

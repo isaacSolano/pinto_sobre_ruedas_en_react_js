@@ -9,7 +9,7 @@ const PublicacionesSchema = new Schema({
     imagen3: {type: String, required: false},
     imagen4: {type: String, required: false},
     usuario: {type: String, required: true},
-    fecha: {type: Date, required: true},
+    fecha: {type: String, required: true},
     desactivado: {type: Number, required: true},
     motivoDesact: {type: String, required: false},
 });

@@ -11,6 +11,7 @@ import RegistroColaboradores from 'components/Usuarios/RegistroUsuarios/Registro
 import ListarUsuarios from 'components/Usuarios/ListarUsuarios/ListarUsuarios';
 
 import RegistrarPublicacion from 'components/Publicaciones/RegistrarPublicacion/RegistrarPublicacion';
+import ListarPublicaciones from 'components/Publicaciones/ListarPublicaciones/ListarPublicaciones';
 
 import NotFound from 'components/404/404'; 
 
@@ -39,6 +40,7 @@ const AplicacionInterna = () => {
         '/registroColaboradores': () => <RegistroColaboradores usuarioActivo={infoUsuarioActivo} />,
         '/listarUsuarios': () => <ListarUsuarios usuarioActivo={infoUsuarioActivo} />,
         '/registrarPublicacion': () => <RegistrarPublicacion usuarioActivo={infoUsuarioActivo} />,
+        '/listarPublicaciones': () => <ListarPublicaciones usuarioActivo={infoUsuarioActivo}/>,
     }
 
     const routeResult = useRoutes(internRoutes);

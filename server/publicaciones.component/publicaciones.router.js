@@ -18,4 +18,18 @@ router.route('/registrar_publicacion')
 
     });
 
+router.route(`/obtener_publicaciones_usuario/:correoElectronico`)
+    .get( (req, res) => {
+        PublicacionModel.find()
+        .then( (publicaciones) => {
+            let publicacionesUsuario = [];
+            publicaciones.forEach( (publicacion) => {
+                if(publicacion.usuario == req.params.correoElectronico){
+                    publicacionesUsuario.push(publicacion)
+                }
+            })
+            res.send(publicacionesUsuario);
+        })
+    });
+
 module.exports = router;

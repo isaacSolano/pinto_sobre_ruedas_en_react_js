@@ -21,6 +21,10 @@ const NavegacionInterna = (props) => {
         navigate('/aplicacionInterna/registrarPublicacion');
     }
 
+    let redirigirListarPublicaciones = () => {
+        navigate('/aplicacionInterna/listarPublicaciones');
+    }
+
     return (
         <>
             <header className="sticky-top bg-brown border-yellow border-bottom">
@@ -36,11 +40,16 @@ const NavegacionInterna = (props) => {
                             <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirListaUsuarios}>Lista usuarios</a>
 
                             <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirRegistrarPublicacion}>Nueva publicación</a>
+
+                            <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirListarPublicaciones}>Mis publicaciones</a>
                         </nav>
                     ) : (
                         rolUsuarioActivo === 1 ? (
                             <nav className="row navbar mx-auto">
                                 <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirRegistrarPublicacion}>Nueva publicación</a>
+
+                                <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirListarPublicaciones}>Mis publicaciones</a>
+
                             </nav>
                         ) : (
                             rolUsuarioActivo === 2 ? (
@@ -48,9 +57,12 @@ const NavegacionInterna = (props) => {
                                     <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirListaUsuarios}>Lista usuarios</a>
 
                                     <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirRegistrarPublicacion}>Nueva publicación</a>
+
+                                    <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirListarPublicaciones}>Mis publicaciones</a>
+
                                 </nav>
                             ) : (
-                                <p>nada</p>
+                                <p>Cargando...</p>
                             )
                         )
                     )}

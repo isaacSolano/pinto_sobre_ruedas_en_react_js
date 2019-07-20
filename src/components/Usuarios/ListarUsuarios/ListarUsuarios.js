@@ -127,7 +127,7 @@ const ListarUsuarios = (props) => {
                             <tbody>
                                 {listaUsuarios.map( (usuario) => (
 
-                                    usuario.correoElectronico === props.usuarioActivo || usuario.rol === 0 ? (
+                                    usuario.correoElectronico === props.usuarioActivo.correoElectronico || usuario.rol === 0 ? (
                                         <tr key={usuario.correoElectronico} ></tr>
                                     ) : (
                                             <tr key={usuario.correoElectronico}>
