@@ -52,9 +52,29 @@ const _obtenerPublicacionesUsuarioActivo = async(usuarioActivo) => {
     }
 }
 
+const _actDesactPublicacion = async(id, nuevosValores) => {
+    let publicacion = await axios.get(`http://localhost:5000/api/obtener_publicacion_id/${id}`),
+        nuevaPublicacion = publicacion.data;
+
+    nuevaPublicacion.desactivado = nuevosValores.tipo;
+    nuevaPublicacion.motivoDesact = nuevosValores.motivoDesact;
+
+    let response = API.actualizarPublicacion(nuevaPublicacion);
+
+    return response
+}
+
+const _actualizarPublicacion = async(nuevaPublicacion) => {
+    let response = await axios.put('http://localhost:5000/api/actualizar_publicacion', nuevaPublicacion);
+
+    return response
+}
+
 const API = {
     registrarPublicacion: _registrarPublicacion,
     obtenerPublicacionesUsuarioActivo: _obtenerPublicacionesUsuarioActivo,
+    actDesactPublicacion: _actDesactPublicacion,
+    actualizarPublicacion: _actualizarPublicacion,
 };
 
 export default API;

@@ -1,4 +1,7 @@
 import React, {useState, useEffect} from 'react';
+import {navigate} from 'hookrouter';
+
+import Swal from 'sweetalert';
 
 import Modal from 'react-bootstrap/Modal';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -8,6 +11,7 @@ import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna';
 import Footer from 'components/Footer/Footer';
 
 import ServicioPublicaciones from 'components/Publicaciones/ServicioPublicaciones';
+
 const ListarPublicaciones = (props) => {
 
     const [misPublicaciones, setMisPublicaciones] = useState([]);
@@ -27,8 +31,95 @@ const ListarPublicaciones = (props) => {
         obtenerMisPublicaciones();
     }, [props.usuarioActivo]);
 
-    let redirigirImagen = (e) => {
-        console.log(e.target.src);
+    let desactivarPublicacion = async(e) => {
+        e.preventDefault();
+
+        let idPublicacion = e.target.id,
+            datosDesact = {
+                tipo: 1,
+                motivoDesact: '',
+            };
+
+        Swal({
+            title: '¿Desea desactivar esta publicación?',
+            text: 'Si se desactiva no podrá ser vista por otros usuarios',
+            icon: 'warning',
+            dangerMode: true,
+            buttons: ['No', 'Sí'],
+        })
+        .then( async(confirmacion) => {
+            if(confirmacion){
+                let response = await ServicioPublicaciones.actDesactPublicacion(idPublicacion, datosDesact);
+
+                if(response){
+                    Swal({
+                        title: 'La publicación se desactivó correctamente',
+                        text: 'Ahora la informacion no podrá ser vista por otros usuarios',
+                        icon: 'success',
+                    })
+                    navigate('/aplicacionInterna');
+                }else{
+                    Swal({
+                        title: 'Hubo un error en el proceso',
+                        text: 'Por favor intente de nuevo',
+                        icon: 'error',
+                    })
+                }
+            }else{
+                Swal({
+                    title: 'La publicación no se desactivó',
+                    text: 'Aún podrá ser vista por otros usuarios',
+                    icon: 'warning',
+                })
+            }
+        })
+
+    }
+
+    let reactivarPublicacion = async(e) => {
+        e.preventDefault();
+
+        let idPublicacion = e.target.id,
+            datosAct = {
+                tipo: 0,
+                motivoDesact: '',
+            };
+
+        Swal({
+            title: '¿Desea reactivar esta publicación?',
+            text: 'Una vez la reactive, podrá ser vista por otros usuarios',
+            icon: 'info',
+            buttons: ['No', 'Sí'],
+        })
+        .then( async(confirmacion) => {
+            if(confirmacion){
+                let response = await ServicioPublicaciones.actDesactPublicacion(idPublicacion, datosAct);
+
+                if(response){
+                    Swal({
+                        title: 'La publicación se reactivó correctamente',
+                        text: 'Ahora podrá ser vista por otros usuarios',
+                        icon: 'success',
+                    })
+                    navigate('/aplicacionInterna');
+                }else{
+                    Swal({
+                        title: 'Hubo un error en el proceso',
+                        text: 'Por favor intente de nuevo',
+                        icon: 'error',
+                    })
+                }
+            }else{
+                Swal({
+                    title: 'La publicación no se reactivó',
+                    text: 'Aún no podrá ser vista por otros usuarios',
+                    icon: 'warning',
+                    dangerMode: true,
+                })
+            }
+        })
+
+
     }
 
     return (
@@ -51,17 +142,28 @@ const ListarPublicaciones = (props) => {
                                 
                                 <nav className="col-md-6 justify-content-end nav nav-pills ">
                                     
-                                    <OverlayTrigger placement="top" overlay={<Tooltip>Editar Publicación</Tooltip>}>
+                                    <OverlayTrigger placement="top" overlay={<Tooltip>Editar publicación</Tooltip>}>
                                         <a href="#" className="nav-link btn-brown text-yellow mx-1" >
                                             <span className="fas fa-edit"></span>
                                         </a>
                                     </OverlayTrigger>
 
-                                    <OverlayTrigger placement="top" overlay={<Tooltip>Desactivar Publicación</Tooltip>}>
-                                        <a href="#" className="nav-link btn-brown text-yellow mx-1" >
-                                            <span className="fas fa-minus-circle"></span>
-                                        </a>
-                                    </OverlayTrigger>
+                                    {publicacion.desactivado === 1 ? (
+                                        <OverlayTrigger placement="top" overlay={<Tooltip>Reactivar publicación</Tooltip>}>
+                                            <a href="#" id={publicacion._id} className="nav-link btn-brown text-yellow mx-1" onClick={reactivarPublicacion} >
+                                                <span className="fas fa-check-circle"></span>
+                                            </a>
+                                        </OverlayTrigger>    
+                                    ) : (
+                                        publicacion.desactivado === 2 ? (<></>) : (
+                                            <OverlayTrigger placement="top" overlay={<Tooltip>Desactivar publicación</Tooltip>}>
+                                                <a href="" id={publicacion._id} className="nav-link btn-brown text-yellow mx-1" onClick={desactivarPublicacion} >
+                                                    <span className="fas fa-minus-circle"></span>
+                                                </a>
+                                            </OverlayTrigger>
+                                        )
+                                    )}
+
                                     
                                 </nav>
 
@@ -149,7 +251,15 @@ const ListarPublicaciones = (props) => {
                                 ) : (<></>)}
                             </div>
 
-                            <p className="text-brown p-4 mt-4">{publicacion.fecha}</p>
+                            <p className="text-brown p-2 mt-4">{publicacion.fecha}</p>
+
+                            {publicacion.desactivado === 1 ? (
+                                <p className="text-danger p-2 font-weight-bold">Esta publicación se encuentra desactivada, reactívela para que sea visible.</p>
+                            ) : (
+                                publicacion.desactivado === 2 ? (
+                                    <p className="text-danger p-2 font-weight-bold">Esta publicación fue desactivada por administración, debido a <span className="font-italic">"{publicacion.motivoDesact}"</span>, edite la información para que sea visible.</p>
+                                ) : (<></>)
+                            )}
 
                         </div>
 

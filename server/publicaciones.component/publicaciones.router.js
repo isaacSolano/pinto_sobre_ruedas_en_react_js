@@ -18,7 +18,7 @@ router.route('/registrar_publicacion')
 
     });
 
-router.route(`/obtener_publicaciones_usuario/:correoElectronico`)
+router.route('/obtener_publicaciones_usuario/:correoElectronico')
     .get( (req, res) => {
         PublicacionModel.find()
         .then( (publicaciones) => {
@@ -31,5 +31,32 @@ router.route(`/obtener_publicaciones_usuario/:correoElectronico`)
             res.send(publicacionesUsuario);
         })
     });
+
+router.route('/obtener_publicacion_id/:id')
+    .get( (req, res) => {
+        PublicacionModel.findById(req.params.id)
+        .then( (publicacion) => {
+            res.send(publicacion)
+        })
+        .catch( (err) => {
+            res.send(false)
+            res.send(err)
+        })
+    });
+
+router.route('/actualizar_publicacion')
+    .put( (req, res) => {
+        const ActPublicacion = new PublicacionModel(req.body);
+        
+        ActPublicacion.updateOne(ActPublicacion)
+        .then ((ActPublicacion) => {
+            res.send(true)
+        })
+        .catch( (err) => {
+            res.send(false)
+            res.send(err)
+        })
+
+    })
 
 module.exports = router;
