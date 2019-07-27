@@ -6,6 +6,7 @@ import Swal from 'sweetalert';
 
 import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna';
 import Footer from 'components/Footer/Footer';
+import VerificacionesUsuario from 'components/Usuarios/VerificacionesUsuario/VerificacionesUsuario';
 
 import usePublicacion from 'components/Publicaciones/usePublicacion';
 import reglasValidacion from 'components/Publicaciones/RegistrarPublicacion/RegistrarPublicacionRules';
@@ -29,8 +30,6 @@ const RegistrarPublicacion = (props) => {
     async function enviarRegistrarPublicacion(){
         let mesesDelAnio = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
         fechaConFormato =  `${new Date().getDate()}/${mesesDelAnio[new Date().getMonth()]}/${new Date().getFullYear()} a las ${new Date().getHours()}:${new Date().getMinutes()}`;
-
-        console.log(fechaConFormato)
         
         valores.usuario = props.usuarioActivo.correoElectronico;
         valores.fecha = fechaConFormato;
@@ -45,8 +44,9 @@ const RegistrarPublicacion = (props) => {
                     title: 'Publicación registrada',
                     text: 'Sus datos se han registrado',
                     icon: 'success',
+                }).then ( () => {
+                    navigate('/aplicacionInterna');
                 })
-                navigate('/aplicacionInterna');
             })
         }else{
             Swal({
@@ -58,6 +58,7 @@ const RegistrarPublicacion = (props) => {
     }
     return (
         <>
+            <VerificacionesUsuario usuarioActivo={props.usuarioActivo} />
             <NavegacionInterna usuarioActivo={props.usuarioActivo} />
 
             <main className="container p-6">

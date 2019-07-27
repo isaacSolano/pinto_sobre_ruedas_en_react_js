@@ -26,11 +26,13 @@ const CambiarContrasena = (props) => {
         if(response){
             Swal({
                 title: 'Datos actualizados.',
-                text: 'Se ha actualizado su contraseña, inicie sesión',
+                text: 'Se ha actualizado su contraseña.',
                 icon: 'success',
+            })
+            .then(() => {
+                navigate('/aplicacionInterna');
             });
 
-            navigate('/aplicacionInterna');
         }else{
             Swal({
                 title: 'Hubo un problema en el proceso.',

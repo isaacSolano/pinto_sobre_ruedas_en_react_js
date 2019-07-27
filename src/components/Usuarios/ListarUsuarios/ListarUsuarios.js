@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
 import {navigate} from 'hookrouter';
 
-import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna'
-import Footer from 'components/Footer/Footer'
+import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna';
+import Footer from 'components/Footer/Footer';
+import VerificacionesUsuario from 'components/Usuarios/VerificacionesUsuario/VerificacionesUsuario';
 
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 import Swal from 'sweetalert';
@@ -32,7 +33,7 @@ const ListarUsuarios = (props) => {
 
         Swal({
             title: '¿Desea desactivar este usuario?',
-            text: 'Describa la razón de la desactivación',
+            text: 'Describa la razón de la desactivación:',
             content: 'input',
             icon: 'warning',
             dangerMode: true,
@@ -47,18 +48,20 @@ const ListarUsuarios = (props) => {
                 const response = await ServicioUsuarios.actDesactUsuario(id, desactData);
                 if(response){
                     Swal({
-                        title: 'El usuario se desactivó correctamente',
-                        text: 'El motivo de la desactivación se envió correctamente',
+                        title: 'El usuario se desactivó correctamente.',
+                        text: 'El motivo de la desactivación se envió correctamente.',
                         icon: 'success',
+                    })
+                    .then( () => {
+                        navigate('/aplicacionInterna');
                     })
                 }else{
                     Swal({
-                        title: 'Tuvimos un problema en el proceso',
+                        title: 'Tuvimos un problema en el proceso.',
                         text: 'El usuario no se desactivó, intente de nuevo.',
                         icon: 'error',
                     })
                 }
-                navigate('/aplicacionInterna');
             }
         });
     }
@@ -86,23 +89,27 @@ const ListarUsuarios = (props) => {
 
         if(response){
             Swal({
-                title: 'El cambio se guardó correctamente',
-                text: 'Ahora el usuario tendra permisos distintos',
+                title: 'El cambio se guardó correctamente.',
+                text: 'Ahora el usuario tendra permisos distintos.',
                 icon: 'success',
+            }).then ( () => {
+                navigate('/aplicacionInterna');
             })
         }else{
             Swal({
-                title: 'No se pudo completar su petición',
-                text: 'Hubo un problema en el proceso, intente mas tarde',
+                title: 'No se pudo completar su petición.',
+                text: 'Hubo un problema en el proceso, intente mas tarde.',
                 icon: 'error',
             });
         }
-        navigate('/aplicacionInterna');
     }
 
     return (
         <>
+            <VerificacionesUsuario usuarioActivo={props.usuarioActivo} />
+            
             <NavegacionInterna usuarioActivo={infoUsuarioActivo} />
+            
             
             <main className="container">
 

@@ -31,23 +31,15 @@ const InicioSesion = () => {
                     icon: 'error',
                 });
             }else{
-                if(response.contrasenaTemp){
-                    Swal({
-                        title: 'Antes de continuar.',
-                        text: 'Por favor cambie su conraseña.',
-                        icon: 'warning',
-                    });
-
-                    navigate(`/aplicacionInterna/cambiarContrasena`);
-                }else{
-                    Swal({
-                        title: 'Credenciales verificadas.',
-                        text: '¡Bienvenido a Pinto Sobre Ruedas!',
-                        icon: 'success',
-                    });
-
+                Swal({
+                    title: 'Credenciales verificadas.',
+                    text: '¡Bienvenido a Pinto Sobre Ruedas!',
+                    icon: 'success',
+                })
+                .then( () => {
                     navigate(`/aplicacionInterna`);
-                }
+                })
+
             }
         }
     }

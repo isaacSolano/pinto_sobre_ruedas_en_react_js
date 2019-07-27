@@ -12,6 +12,7 @@ import ListarUsuarios from 'components/Usuarios/ListarUsuarios/ListarUsuarios';
 
 import RegistrarPublicacion from 'components/Publicaciones/RegistrarPublicacion/RegistrarPublicacion';
 import ListarPublicaciones from 'components/Publicaciones/ListarPublicaciones/ListarPublicaciones';
+import EditarPublicacion from 'components/Publicaciones/EditarPublicacion/EditarPublicacion';
 
 import NotFound from 'components/404/404'; 
 
@@ -41,11 +42,12 @@ const AplicacionInterna = () => {
         '/listarUsuarios': () => <ListarUsuarios usuarioActivo={infoUsuarioActivo} />,
         '/registrarPublicacion': () => <RegistrarPublicacion usuarioActivo={infoUsuarioActivo} />,
         '/listarPublicaciones': () => <ListarPublicaciones usuarioActivo={infoUsuarioActivo}/>,
+        '/editarPublicacion/:idPublicacion': ({idPublicacion}) => <EditarPublicacion usuarioActivo={infoUsuarioActivo} idPublicacion={idPublicacion} />
     }
 
     const routeResult = useRoutes(internRoutes);
     
-    return routeResult || <NotFound />
+    return routeResult || <NotFound usuarioActivo={infoUsuarioActivo} />
 };
 
 export default AplicacionInterna

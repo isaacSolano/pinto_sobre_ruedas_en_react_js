@@ -27,12 +27,14 @@ const EditarUsuario = (props) => {
                 title: 'Se guardaron los cambios.',
                 text: 'Su información se ha actualizado.',
                 icon: 'success',
-            });
+            })
+            .then( () => {
+                navigate('/aplicacionInterna');
+            })
 
-            navigate('/aplicacionInterna');
         }else{
             Swal({
-                title: 'No se guardaron los cambios',
+                title: 'No se guardaron los cambios.',
                 text: 'Tuvimos un problema actualizando su información. Intente más tarde.',
                 icon: 'error',
             });

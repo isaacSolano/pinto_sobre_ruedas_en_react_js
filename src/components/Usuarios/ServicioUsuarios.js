@@ -7,9 +7,6 @@ const _obtenerTodosLosUsuarios = async() => {
           .then(  (res) => {
                objUsuarios = res.data
           })
-          .catch( (err) => {
-               console.log(err)
-          });
 
      return objUsuarios
 }

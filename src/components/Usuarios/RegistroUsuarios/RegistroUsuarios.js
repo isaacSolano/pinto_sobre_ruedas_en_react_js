@@ -5,6 +5,7 @@ import { navigate } from 'hookrouter';
 import Header from 'components/Header/Header';
 import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna';
 import Footer from 'components/Footer/Footer';
+import VerificacionesUsuario from 'components/Usuarios/VerificacionesUsuario/VerificacionesUsuario';
 
 import useUsuario from 'components/Usuarios/useUsuario';
 import reglasValidacion from 'components/Usuarios/RegistroUsuarios/RegistroUsuariosRules';
@@ -60,6 +61,7 @@ const RegistroUsuarios = (props) => {
 
     return (
         <> 
+            <VerificacionesUsuario usuarioActivo={props.usuarioActivo} />
             {props.usuarioActivo === undefined ? 
                 (<Header /> ) 
                     :

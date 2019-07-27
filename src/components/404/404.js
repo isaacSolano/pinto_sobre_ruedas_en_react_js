@@ -2,10 +2,11 @@ import React from 'react';
 import { navigate } from 'hookrouter';
 
 import Header from 'components/Header/Header';
+import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna';
 import Footer from 'components/Footer/Footer';
 
 
-const NotFound = () => {
+const NotFound = (props) => {
 
     const redirigirInicio = () => {
         navigate('/');
@@ -13,7 +14,11 @@ const NotFound = () => {
 
     return (
         <>
-            <Header />
+            {props.usuarioActivo === undefined ? 
+                (<Header /> ) 
+                    :
+                (<NavegacionInterna usuarioActivo={props.usuarioActivo} />)
+            }
             
             <main className="container">
 

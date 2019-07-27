@@ -7,70 +7,14 @@ import Tooltip from 'react-bootstrap/Tooltip';
 
 import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna'
 import Footer from 'components/Footer/Footer';
+import VerificacionesUsuario from 'components/Usuarios/VerificacionesUsuario/VerificacionesUsuario';
 
 
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
 const Perfil = (props) => {
 
-    const infoUsuarioActivo = props.usuarioActivo;
-
-    switch (infoUsuarioActivo.desactivado){
-        case 1:
-            Swal({
-                title: 'Su perfil se encuentra desactivado.',
-                text: '¿Desea reacttivar su perfil para continuar?',
-                icon: 'warning',
-                dangerMode: true,
-                buttons: ['Mantener perfil desactivado', 'Reactivar perfil'],
-            }).then( async(confirmacion) => {
-                if(confirmacion){
-                    let reactData = {
-                        desactivado: 0,
-                        motivo: "",
-                    }
-                    await ServicioUsuarios.actDesactUsuario(infoUsuarioActivo.correoElectronico, reactData);
-                    Swal({
-                        title: 'Su perfil se ha reactivado',
-                        text: 'Bienvenido a pinto sobre ruedas',
-                        icon: 'success'
-                    })
-                }else{
-                    ServicioUsuarios.cerrarSesion();
-                    navigate('/');
-    
-                    Swal({
-                        title: 'Su perfil se mantiene desactivado',
-                        text: 'Gracias por visiar pinto sobre ruedas',
-                        icon: 'success',
-                    });
-                }
-            });
-        break;
-
-        case 2: 
-            Swal({
-                title: 'Su perfil fue desactivado por la  administración',
-                text: `Razon de la desactivación: "${infoUsuarioActivo.motivoDesact}". Por favor actualice sus datos para continuar`,
-                icon: 'warning',
-                dangerMode: true,
-                buttons: ['Mantener perfil desactivado', 'Editar información']
-            }).then( (confirmacion) => {
-                if(confirmacion){
-                    navigate('/aplicacionInterna/editarUsuario');
-                }else{
-                    ServicioUsuarios.cerrarSesion();
-                    navigate('/');
-                    
-                    Swal({
-                        title: 'Su perfil se mantiene desactivado',
-                        text: 'Gracias por visiar pinto sobre ruedas',
-                        icon: 'success',
-                    });
-                }
-            })
-        break;
-    }
+    let infoUsuarioActivo = props.usuarioActivo;
 
     let fechaNacimientoUsuarioActivo = () => {
         let mesesDelAnio = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
@@ -94,17 +38,19 @@ const Perfil = (props) => {
         .then( async(confirmacion) => {
             if(confirmacion){
                 Swal({
-                    title: 'Adiós',
+                    title: '¡Adiós!',
                     text: 'Gracias por compartir sus historias con nosotros.',
                     icon: 'success',
                 });
                 let desactData = {desactivado: 1, motivoDesact: ''}
-                await ServicioUsuarios.actDesactUsuario(infoUsuarioActivo.correoElectronico, desactData);
-                await ServicioUsuarios.cerrarSesion();
-                navigate('/');
+                await ServicioUsuarios.actDesactUsuario(infoUsuarioActivo.correoElectronico, desactData)
+                .then ( () => {
+                    ServicioUsuarios.cerrarSesion();
+                    navigate('/');
+                })
             }else{
                 Swal({
-                    title: 'Su perfil continua activo',
+                    title: 'Su perfil continua activo.',
                     text: 'Gracias por seguir compartiendo historias con nosotros.',
                     icon: 'success',
                 })
@@ -118,7 +64,10 @@ const Perfil = (props) => {
 
     return (
         <>
+            <VerificacionesUsuario usuarioActivo={infoUsuarioActivo} />
+
             <NavegacionInterna usuarioActivo={infoUsuarioActivo} />
+
 
             <main className="container p-6">
 

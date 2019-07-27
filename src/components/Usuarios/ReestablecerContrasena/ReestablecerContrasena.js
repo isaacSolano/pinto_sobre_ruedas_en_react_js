@@ -26,11 +26,13 @@ const ReestablecerContrasena = () => {
                 title: 'Revise su correo electronicónico.',
                 text: 'Se le ha enviado una contrasena temporal.',
                 icon: 'success',
-            });
+            })
+            .then( async() => {
+                await ServicioUsuarios.enviarCorreoElectronico(valores);
+                navigate('/inicioSesion');
+            })
 
-            await ServicioUsuarios.enviarCorreoElectronico(valores);
 
-            navigate('/inicioSesion');
         }else{
             Swal({
                 title: 'El usuario no está registrado.',
