@@ -12,6 +12,7 @@ const PublicacionesSchema = new Schema({
     fecha: {type: String, required: true},
     desactivado: {type: Number, required: true},
     motivoDesact: {type: String, required: false},
+    id: {type: Number, required: true, unique: true},
 });
 
 module.exports = mongoose.model('Publicaciones', PublicacionesSchema);

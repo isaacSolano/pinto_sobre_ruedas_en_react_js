@@ -9,7 +9,9 @@ import VerificacionesUsuario from 'components/Usuarios/VerificacionesUsuario/Ver
 
 import useUsuario from 'components/Usuarios/useUsuario';
 import reglasValidacion from 'components/Usuarios/RegistroUsuarios/RegistroUsuariosRules';
+
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
+import ServicioNotificaciones from 'components/Notificaciones/ServicioNotificaciones';
 
 const RegistroUsuarios = (props) => {
 
@@ -17,16 +19,18 @@ const RegistroUsuarios = (props) => {
 
     async function enviarRegistro(){
 
-        let rolNuevoUsuario;
+        let rolNuevoUsuario = 1;
 
-        switch(props.usuarioActivo.rol) {
-            case 0:
-                rolNuevoUsuario = 2;
-            break;
-
-            default:
-                rolNuevoUsuario = 1;
-            break;
+        if(props === ''){
+            switch(props.usuarioActivo.rol) {
+                case 0:
+                    rolNuevoUsuario = 2;
+                break;
+    
+                default:
+                    rolNuevoUsuario = 1;
+                break;
+            }
         }
         
         const nuevoUsuario = {
@@ -40,6 +44,12 @@ const RegistroUsuarios = (props) => {
             rol: rolNuevoUsuario,
             desactivado: 0,
             motivoDesact: '',
+        },
+        nuevaNotificacion = {
+            usuario: valores.correoElectronico,
+            primerNombre: valores.primerNombre,
+            primerApellido: valores.primerApellido,
+            tipo: 'usuario',
         }
 
         let response = await ServicioUsuarios.registrarUsuario(nuevoUsuario);
@@ -49,6 +59,9 @@ const RegistroUsuarios = (props) => {
                 title: "El usuario se ha registrado.",
                 text: "El usuario se ha registrado exitosamente en nuestro sistema.",
                 icon: "success",
+                })
+                .then( async() => {
+                    await ServicioNotificaciones.registrarNotificacion(nuevaNotificacion);
                 });
         }else{
             Swal({
@@ -61,11 +74,15 @@ const RegistroUsuarios = (props) => {
 
     return (
         <> 
-            <VerificacionesUsuario usuarioActivo={props.usuarioActivo} />
             {props.usuarioActivo === undefined ? 
                 (<Header /> ) 
                     :
-                (<NavegacionInterna usuarioActivo={props.usuarioActivo} />)
+                (
+                    <>
+                        <NavegacionInterna usuarioActivo={props.usuarioActivo} />
+                        <VerificacionesUsuario usuarioActivo={props.usuarioActivo} />
+                    </>        
+                )
             }
 
             <main className="container p-6">

@@ -93,7 +93,6 @@ const _actualizarPublicacion = async(nuevaPublicacion) => {
 }
 
 const _editarPublicacion = async(nuevaPublicacion, eliminarImagenes, nuevasImagenes) => {
-    let response = false;
     for(let i=0; i < nuevasImagenes.length; i++) {
         let path = `/ride_${Date.now()}_${nuevasImagenes[i].name}`,
         storageRef = firebase.storage().ref(path),

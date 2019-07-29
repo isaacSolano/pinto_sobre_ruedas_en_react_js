@@ -22,11 +22,12 @@ mongoose.connect(dburl, { useNewUrlParser: true } ).then(
 usuarios = require('./usuarios.component/usuarios.router');
 correoElectronico = require('./correoElectronico.component/correoElectronico.router');
 publicaciones = require('./publicaciones.component/publicaciones.router');
+notificaciones = require('./notificaciones.component/notificaciones.router');
 
 app.use('/api', usuarios);
 app.use('/api', correoElectronico);
 app.use('/api', publicaciones);
-
+app.use('/api', notificaciones);
 
 app.listen(PORT, () =>
   console.log(`Servidor conectado en el puerto ${PORT}`)

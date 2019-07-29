@@ -15,22 +15,12 @@ import ServicioPublicaciones from 'components/Publicaciones/ServicioPublicacione
 
 const ListarPublicaciones = (props) => {
 
-    const [misPublicaciones, setMisPublicaciones] = useState([]);
+    const misPublicaciones = props.publicacionesUsuarioActivo;
 
     let [mostrarImagen1, setMostrarImagen1] = useState(false);
     let [mostrarImagen2, setMostrarImagen2] = useState(false);
     let [mostrarImagen3, setMostrarImagen3] = useState(false);
     let [mostrarImagen4, setMostrarImagen4] = useState(false);
-
-    useEffect( () => {
-        let obtenerMisPublicaciones = async() => {
-            let publicacionesUsuarioActivo = await ServicioPublicaciones.obtenerPublicacionesUsuarioActivo(props.usuarioActivo.correoElectronico);
-
-            setMisPublicaciones(publicacionesUsuarioActivo);
-        }
-
-        obtenerMisPublicaciones();
-    }, [props.usuarioActivo]);
 
     let desactivarPublicacion = async(e) => {
         e.preventDefault();
@@ -126,7 +116,6 @@ const ListarPublicaciones = (props) => {
     let editarPublicacion = (e) => {
         e.preventDefault();
 
-        console.log(e);
         let idPublicacion = e.target.id;
 
         navigate(`/aplicacionInterna/editarPublicacion/${idPublicacion}`);
@@ -145,7 +134,7 @@ const ListarPublicaciones = (props) => {
                 <div className="row">
                     {misPublicaciones.map( publicacion => (
 
-                        <div className="col-md-12 border border-brown rounded p-4 m-4" key={publicacion._id}>
+                        <div className="col-md-12 border border-brown rounded p-4 m-4" key={publicacion.id}>
 
                             <div className="row border-bottom border-yellow p-5">
 
@@ -154,21 +143,21 @@ const ListarPublicaciones = (props) => {
                                 <nav className="col-md-6 justify-content-end nav nav-pills ">
                                     
                                     <OverlayTrigger placement="top" overlay={<Tooltip>Editar publicación</Tooltip>}>
-                                        <a href="" id={publicacion._id} className="nav-link btn-brown text-yellow mx-1" onClick={editarPublicacion} >
+                                        <a href="" id={publicacion.id} className="nav-link btn-brown text-yellow mx-1" onClick={editarPublicacion} >
                                             <span className="fas fa-edit"></span>
                                         </a>
                                     </OverlayTrigger>
 
                                     {publicacion.desactivado === 1 ? (
                                         <OverlayTrigger placement="top" overlay={<Tooltip>Reactivar publicación</Tooltip>}>
-                                            <a href="" id={publicacion._id} className="nav-link btn-brown text-yellow mx-1" onClick={reactivarPublicacion} >
+                                            <a href="" id={publicacion.id} className="nav-link btn-brown text-yellow mx-1" onClick={reactivarPublicacion} >
                                                 <span className="fas fa-check-circle"></span>
                                             </a>
                                         </OverlayTrigger>    
                                     ) : (
                                         publicacion.desactivado === 0 && (
                                             <OverlayTrigger placement="top" overlay={<Tooltip>Desactivar publicación</Tooltip>}>
-                                                <a href="" id={publicacion._id} className="nav-link btn-brown text-yellow mx-1" onClick={desactivarPublicacion} >
+                                                <a href="" id={publicacion.id} className="nav-link btn-brown text-yellow mx-1" onClick={desactivarPublicacion} >
                                                     <span className="fas fa-minus-circle"></span>
                                                 </a>
                                             </OverlayTrigger>

@@ -2,6 +2,8 @@ import React, {useState, useEffect, useCallback} from 'react';
 import {useDropzone} from 'react-dropzone';
 import {navigate} from 'hookrouter';
 
+import Swal from 'sweetalert';
+
 import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna';
 import Footer from 'components/Footer/Footer';
 import VerificacionesUsuario from 'components/Usuarios/VerificacionesUsuario/VerificacionesUsuario';
@@ -10,7 +12,7 @@ import useEditarUsuario from 'components/Publicaciones/EditarPublicacion/useEdit
 import reglasValidacion from 'components/Publicaciones/EditarPublicacion/EditarPublicacionRules'
 
 import ServicioPublicaciones from 'components/Publicaciones/ServicioPublicaciones';
-import Swal from 'sweetalert';
+import ServicioNotificaciones from 'components/Notificaciones/ServicioNotificaciones';
 
 const EditarPublicacion = (props) => {
     const idPublicacion = props.idPublicacion,
@@ -59,7 +61,16 @@ const EditarPublicacion = (props) => {
     async function enviarEditarPublicacion(){
         let contadorImg = 0,
             mesesDelAnio = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-        fechaConFormato =  `${new Date().getDate()}/${mesesDelAnio[new Date().getMonth()]}/${new Date().getFullYear()} a las ${new Date().getHours()}:${new Date().getMinutes()}`;
+        fechaConFormato =  `${new Date().getDate()}/${mesesDelAnio[new Date().getMonth()]}/${new Date().getFullYear()} a las ${new Date().getHours()}:${new Date().getMinutes()}`,
+            nuevaNotificacion = {
+            usuario: infoUsuarioActivo.correoElectronico,
+            primerNombre: infoUsuarioActivo.primerNombre,
+            primerApellido: infoUsuarioActivo.primerApellido,
+            idPublicacion: valores.id,
+            tituloPublicacion: valores.titulo,
+            tipo: 'publicacion',
+        };
+
         valores.imagen1 = publicacionActual.imagen1 || '';
         valores.imagen2 = publicacionActual.imagen2 || '';
         valores.imagen3 = publicacionActual.imagen3 || '';
@@ -84,14 +95,15 @@ const EditarPublicacion = (props) => {
                 navigate('/aplicacionInterna/listarPublicaciones');
             }else{
                 await ServicioPublicaciones.editarPublicacion(valores, eliminarImagenes, nuevasImagenes)
-                .then( async (res) => {
+                .then( async(res) => {
                     await 
                     Swal({
                         title: 'Cambios guardados',
                         text: 'Sus datos se han actualizado',
                         icon: 'success',
                     })
-                    .then ( () => {
+                    .then ( async() => {
+                        await ServicioNotificaciones.registrarNotificacion(nuevaNotificacion);
                         navigate('/aplicacionInterna/listarPublicaciones');
                     })
                 })

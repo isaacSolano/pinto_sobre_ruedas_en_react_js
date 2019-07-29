@@ -34,13 +34,9 @@ router.route('/obtener_publicaciones_usuario/:correoElectronico')
 
 router.route('/obtener_publicacion_id/:id')
     .get( (req, res) => {
-        PublicacionModel.findById(req.params.id)
+        PublicacionModel.find({id: req.params.id})
         .then( (publicacion) => {
-            res.send(publicacion)
-        })
-        .catch( (err) => {
-            res.send(false)
-            res.send(err)
+            res.send(publicacion[0])
         })
     });
 

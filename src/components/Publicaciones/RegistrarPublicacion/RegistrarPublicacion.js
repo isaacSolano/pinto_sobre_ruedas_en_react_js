@@ -12,6 +12,7 @@ import usePublicacion from 'components/Publicaciones/usePublicacion';
 import reglasValidacion from 'components/Publicaciones/RegistrarPublicacion/RegistrarPublicacionRules';
 
 import ServicioPublicaciones from 'components/Publicaciones/ServicioPublicaciones';
+import ServicioNotificaciones from 'components/Notificaciones/ServicioNotificaciones';
 
 const RegistrarPublicacion = (props) => {
 
@@ -35,16 +36,28 @@ const RegistrarPublicacion = (props) => {
         valores.fecha = fechaConFormato;
         valores.desactivado = 0;
         valores.motivoDesact = '';
+        valores.id = Date.now();
+
+        let nuevaNotificacion = {
+            usuario: props.usuarioActivo.correoElectronico,
+            primerNombre: props.usuarioActivo.primerNombre,
+            primerApellido: props.usuarioActivo.primerApellido,
+            idPublicacion: valores.id,
+            tituloPublicacion: valores.titulo,
+            tipo: 'publicacion',
+        };
+
         
         if(archivos && archivos.length < 5){
             await ServicioPublicaciones.registrarPublicacion(archivos, valores)
-            .then( async (res) => {
+            .then( async(res) => {
                 await 
                 Swal({
                     title: 'Publicación registrada',
                     text: 'Sus datos se han registrado',
                     icon: 'success',
-                }).then ( () => {
+                }).then ( async() => {
+                    await ServicioNotificaciones.registrarNotificacion(nuevaNotificacion);
                     navigate('/aplicacionInterna');
                 })
             })
@@ -81,7 +94,7 @@ const RegistrarPublicacion = (props) => {
 
                         <div className="form-group col-md-12">
                             <label>Descripción</label>
-                            <textarea name="descripcion" className={`form-control ${errores.descripcion && 'border border-danger'}`} onChange={admCambio} value={valores.descripcion || ""}></textarea>
+                            <textarea name="descripcion" className={`form-control ${errores.descripcion && 'border border-danger'}`} onChange={admCambio} value={valores.descripcion || ""} rows="5 "></textarea>
                         
                             {errores.descripcion && (
                                 <small className="text-danger">{errores.titulo}</small>

@@ -9,6 +9,7 @@ import useEditarUsuario from 'components/Usuarios/EditarUsuario/useEditarUsuario
 import reglasValidacion from 'components/Usuarios/EditarUsuario/EditarUsuarioRules';
 
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
+import ServicioNotificaciones from 'components/Notificaciones/ServicioNotificaciones'
 
 const EditarUsuario = (props) => {
 
@@ -20,6 +21,13 @@ const EditarUsuario = (props) => {
         valores.desactivado = 0;
         valores.motivoDesact = "";
 
+        let nuevaNotificacion = {
+            usuario: valores.correoElectronico,
+            primerNombre: valores.primerNombre,
+            primerApellido: valores.primerApellido,
+            tipo: 'usuario',
+        }
+
         let response = await ServicioUsuarios.actualizarUsuario(valores);
     
         if(response){
@@ -28,7 +36,8 @@ const EditarUsuario = (props) => {
                 text: 'Su información se ha actualizado.',
                 icon: 'success',
             })
-            .then( () => {
+            .then( async() => {
+                await ServicioNotificaciones.registrarNotificacion(nuevaNotificacion)
                 navigate('/aplicacionInterna');
             })
 

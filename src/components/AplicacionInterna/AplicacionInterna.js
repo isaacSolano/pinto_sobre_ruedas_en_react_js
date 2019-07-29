@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { useRoutes, navigate } from 'hookrouter';
-import Swal from 'sweetalert';
 
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
+import ServicioPublicaciones from 'components/Publicaciones/ServicioPublicaciones';
 
 import Perfil from 'components/Usuarios/Perfil/Perfil';
 import CambiarContrasena from 'components/Usuarios/CambiarContrasena/CambiarContrasena';
@@ -19,7 +19,8 @@ import NotFound from 'components/404/404';
 const AplicacionInterna = () => {
     
     let usuarioActivo = ServicioUsuarios.obtenerUsuarioActivo();
-    const [infoUsuarioActivo, setInfoUsuarioActivo] = useState({});
+    const [infoUsuarioActivo, setInfoUsuarioActivo] = useState({}),
+        [publicacionesUsuarioActivo, setPublicacionesUsuarioACtivo] = useState([]);
 
     useEffect( () => {
         let obtenerInfoUsuarioActivo = async() => {
@@ -27,7 +28,14 @@ const AplicacionInterna = () => {
 
             setInfoUsuarioActivo(datos);
         }
+
+        let obtenerPublicacionesUsuarioActivo = async() => {
+            let publicaciones = await ServicioPublicaciones.obtenerPublicacionesUsuarioActivo(usuarioActivo);
+
+            setPublicacionesUsuarioACtivo(publicaciones);
+        }
         obtenerInfoUsuarioActivo();
+        obtenerPublicacionesUsuarioActivo();
     }, [usuarioActivo]);
 
     if(!usuarioActivo){
@@ -41,7 +49,7 @@ const AplicacionInterna = () => {
         '/registroColaboradores': () => <RegistroColaboradores usuarioActivo={infoUsuarioActivo} />,
         '/listarUsuarios': () => <ListarUsuarios usuarioActivo={infoUsuarioActivo} />,
         '/registrarPublicacion': () => <RegistrarPublicacion usuarioActivo={infoUsuarioActivo} />,
-        '/listarPublicaciones': () => <ListarPublicaciones usuarioActivo={infoUsuarioActivo}/>,
+        '/listarPublicaciones': () => <ListarPublicaciones usuarioActivo={infoUsuarioActivo} publicacionesUsuarioActivo={publicacionesUsuarioActivo} />,
         '/editarPublicacion/:idPublicacion': ({idPublicacion}) => <EditarPublicacion usuarioActivo={infoUsuarioActivo} idPublicacion={idPublicacion} />
     }
 
