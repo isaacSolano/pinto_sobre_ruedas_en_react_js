@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {navigate} from 'hookrouter';
+import Swal from 'sweetalert';
 
 import Modal from 'react-bootstrap/Modal';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -10,6 +11,7 @@ import Footer from 'components/Footer/Footer';
 
 import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 import ServicioPublicaciones from 'components/Publicaciones/ServicioPublicaciones';
+import ServicioNotificaciones from 'components/Notificaciones/ServicioNotificaciones';
 
 const ListaNotificacionAdmin = (props) => {
     if(props.usuarioActivo.rol === 1){
@@ -64,11 +66,33 @@ const ListaNotificacionAdmin = (props) => {
         console.log(id);
     }
 
-    let redirigirDesactivarUsuario = (e) => {
+    let desactivarUsuario = (e) => {
         e.preventDefault();
         let correoElectronico = informacionNotificacion.correoElectronico
 
-        console.log(correoElectronico);
+        Swal({
+            title: '¿Desea desactivar este usuario?',
+            text: 'Detalle la razón de la desactivación:',
+            content: 'input',
+            buttons: ['Volver', 'Confirmar'],
+            dangerMode: true,
+        })
+        .then( async(confirmacion) => {
+            if(confirmacion){
+                let desactData = {desactivado: 2, motivo: confirmacion};
+                await ServicioUsuarios.actDesactUsuario(correoElectronico, desactData)
+                .then (
+                    await ServicioNotificaciones.eliminarPreviaNotificacionUsuario(correoElectronico),
+                    Swal({
+                        title: 'El usuario se desactivó correctamente.',
+                        text: 'El motivo se le hará saber.',
+                        icon: 'success',
+                    }).then(
+                        navigate('/aplicacionInterna/listarNotificaciones'),
+                    )
+                )
+            }
+        })
     }
 
     return(
@@ -85,7 +109,7 @@ const ListaNotificacionAdmin = (props) => {
                                 
                                 <nav className="col-md-6 justify-content-end nav nav-pills ">
                                     <OverlayTrigger placement="top" overlay={<Tooltip>Desactivar usuario</Tooltip>}>
-                                        <a href="#" className="nav-link btn-brown text-yellow mx-1" onClick={redirigirDesactivarUsuario}>
+                                        <a href="#" className="nav-link btn-brown text-yellow mx-1" onClick={desactivarUsuario}>
                                             <span className="fas fa-user-slash"></span>
                                         </a>
                                     </OverlayTrigger>

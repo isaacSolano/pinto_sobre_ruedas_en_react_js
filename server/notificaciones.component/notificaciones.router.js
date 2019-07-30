@@ -20,7 +20,7 @@ router.route('/eliminar_notificacion_usuario')
     .post( (req, res) => {
         const id = req.body;
 
-        NotificacionModel.deleteMany({usuario: id})
+        NotificacionModel.deleteMany({usuario: id, tipo: 'usuario'})
         .then( (response) => {
             res.send(true)
         })
