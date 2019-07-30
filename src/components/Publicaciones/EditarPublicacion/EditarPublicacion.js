@@ -76,6 +76,8 @@ const EditarPublicacion = (props) => {
         valores.imagen3 = publicacionActual.imagen3 || '';
         valores.imagen4 = publicacionActual.imagen4 || '';
         valores.fecha = fechaConFormato;
+        valores.desactivado = 0;
+        valores.motivoDesact = '';
 
         for(let [key, value] of Object.entries(valores)){
             if(key.substring(0, 3) === 'ima' && value != ''){

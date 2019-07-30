@@ -63,7 +63,30 @@ const ListaNotificacionAdmin = (props) => {
         e.preventDefault();
         let id = informacionNotificacion.id;
 
-        console.log(id);
+        Swal({
+            title: '¿Desea desactivar esta publicación?',
+            text: 'Detalle la razón de la desactivación:',
+            content: 'input',
+            buttons: ['Volver', 'Confirmar'],
+            dangerMode: true,
+        })
+        .then( async(confirmacion) => {
+            if(confirmacion){
+                let datosDesact = {tipo: 2, motivoDesact: confirmacion};
+
+                await ServicioPublicaciones.actDesactPublicacion(id, datosDesact)
+                .then(
+                    await ServicioNotificaciones.eliminarPreviaNotificacionPublicacion(id),
+                    Swal({
+                        title: 'La publicación se desactivó correctamente.',
+                        text: 'El motivo se le hará saber.',
+                        icon: 'success',
+                    }).then(
+                        navigate('/aplicacionInterna/listarNotificaciones'),
+                    )
+                )
+            }
+        })
     }
 
     let desactivarUsuario = (e) => {
