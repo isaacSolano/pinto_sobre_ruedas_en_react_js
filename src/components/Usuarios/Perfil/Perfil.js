@@ -14,7 +14,21 @@ import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 
 const Perfil = (props) => {
 
-    let infoUsuarioActivo = props.usuarioActivo;
+    let infoUsuarioActivo = props.usuarioActivo,
+        notificaciones = props.notificaciones;
+
+    if((infoUsuarioActivo.rol === 0 || infoUsuarioActivo.rol === 2) && notificaciones !== '[]'){
+        Swal({
+            title: 'Hay nuevas notificaciones por revisar',
+            buttons: ['Ver mas tarde', 'Ver ahora'],
+            icon: 'info',
+        })
+        .then( (confirmacion) => {
+            if(confirmacion){
+                navigate('/aplicacionInterna/listarNotificaciones');
+            }
+        })
+    }
 
     let fechaNacimientoUsuarioActivo = () => {
         let mesesDelAnio = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Setiembre', 'Octubre', 'Noviembre', 'Diciembre'],

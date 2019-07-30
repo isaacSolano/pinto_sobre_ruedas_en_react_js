@@ -28,10 +28,22 @@ const _eliminarPreviaNotificacionPublicacion = async(idPublicacion) => {
 
     return response
 }
+
+const _obtenerNotificaciones = async() => {
+    let todasLasNotificaciones = [];
+    await axios.get('http://localhost:5000/api/obtener_notificaciones')
+    .then( (res) => {
+        todasLasNotificaciones = res.data;
+    });
+
+    return todasLasNotificaciones
+}
+
 const API = {
     registrarNotificacion: _registrarNotificacion,
     eliminarPreviaNotificacionUsuario: _eliminarPreviaNotificacionUsuario,
     eliminarPreviaNotificacionPublicacion: _eliminarPreviaNotificacionPublicacion,
+    obtenerNotificaciones: _obtenerNotificaciones,
 }
 
 export default API;

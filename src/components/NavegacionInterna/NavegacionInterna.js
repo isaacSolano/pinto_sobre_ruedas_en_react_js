@@ -25,6 +25,10 @@ const NavegacionInterna = (props) => {
         navigate('/aplicacionInterna/listarPublicaciones');
     }
 
+    let redirigirListarNotificaciones = () => {
+        navigate('/aplicacionInterna/listarNotificaciones');
+    }
+
     return (
         <>
             <header className="sticky-top bg-brown border-yellow border-bottom">
@@ -42,6 +46,8 @@ const NavegacionInterna = (props) => {
                             <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirRegistrarPublicacion}>Nueva publicación</a>
 
                             <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirListarPublicaciones}>Mis publicaciones</a>
+
+                            <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirListarNotificaciones}>Notificaciones</a>
                         </nav>
                     ) : (
                         rolUsuarioActivo === 1 ? (
@@ -49,7 +55,6 @@ const NavegacionInterna = (props) => {
                                 <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirRegistrarPublicacion}>Nueva publicación</a>
 
                                 <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirListarPublicaciones}>Mis publicaciones</a>
-
                             </nav>
                         ) : (
                             rolUsuarioActivo === 2 ? (
@@ -60,9 +65,10 @@ const NavegacionInterna = (props) => {
 
                                     <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirListarPublicaciones}>Mis publicaciones</a>
 
+                                    <a href="#" className="py-3 nav-link text-yellow" onClick={redirigirListarNotificaciones}>Notificaciones</a>
                                 </nav>
                             ) : (
-                                <p>Cargando...</p>
+                                <p className="py-3 text-yellow text-center">Cargando dopping... 💉💉</p>
                             )
                         )
                     )}

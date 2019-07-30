@@ -44,4 +44,16 @@ router.route('/eliminar_notificacion_publicacion')
         })
     });
 
+router.route('/obtener_notificaciones')
+    .get( (req, res) => {
+        NotificacionModel.find()
+        .then(notificaciones => {
+            res.send(notificaciones)
+        })
+        .catch( err => {
+            res.send(false)
+            res.send(err)
+        })
+    });
+
 module.exports = router;
