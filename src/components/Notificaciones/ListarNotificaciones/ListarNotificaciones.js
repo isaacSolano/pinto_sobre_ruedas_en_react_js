@@ -1,8 +1,12 @@
 import React from 'react';
 import {navigate} from 'hookrouter';
 
+import Swal from 'sweetalert';
+
 import NavegacionInterna from 'components/NavegacionInterna/NavegacionInterna';
 import Footer from 'components/Footer/Footer';
+
+import ServicioNotificaciones from 'components/Notificaciones/ServicioNotificaciones';
 
 const ListarNotificaciones = (props) => {
     if(props.usuarioActivo.rol === 1){
@@ -19,10 +23,25 @@ const ListarNotificaciones = (props) => {
         navigate(`/aplicacionInterna/listaNotificacionAdmin/${tipo}/${id}`);
     }
 
-    let eliminarNotificacion = (e) => {
+    let eliminarNotificacion = async(e) => {
         let id = e.target.name;
 
-        console.log(id);
+        await ServicioNotificaciones.eliminarNotificacionById(id)
+        .then( (res) => {
+            Swal({
+                title: 'Gracias por revisar.',
+                text: 'La notificación se eliminó correctamente',
+                icon: 'success',
+            })
+            navigate('/aplicacionInterna')
+        })
+        .catch( (err) => {
+            Swal({
+                title: 'Hubo un problema en el proceso.',
+                text: 'Intente más tarde.',
+                icon: 'error',
+            })
+        })
     }
 
     return (

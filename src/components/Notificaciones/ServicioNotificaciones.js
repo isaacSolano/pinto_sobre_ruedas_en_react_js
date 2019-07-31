@@ -39,11 +39,22 @@ const _obtenerNotificaciones = async() => {
     return todasLasNotificaciones
 }
 
+const _eliminarNotificacionById = async(id) => {
+    await axios.post('http://localhost:5000/api/eliminar_notificacion_by_id', [id])
+    .then( (res) => {
+        return res
+    })
+    .catch( (err) => {
+        return err
+    })
+}
+
 const API = {
     registrarNotificacion: _registrarNotificacion,
     eliminarPreviaNotificacionUsuario: _eliminarPreviaNotificacionUsuario,
     eliminarPreviaNotificacionPublicacion: _eliminarPreviaNotificacionPublicacion,
     obtenerNotificaciones: _obtenerNotificaciones,
+    eliminarNotificacionById: _eliminarNotificacionById,
 }
 
 export default API;

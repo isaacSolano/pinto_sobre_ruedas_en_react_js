@@ -56,4 +56,16 @@ router.route('/obtener_notificaciones')
         })
     });
 
+router.route('/eliminar_notificacion_by_id')
+    .post( (req, res) => {
+        NotificacionModel.deleteOne({_id: req.body[0]})
+        .then( () => {
+            res.send(true);
+        })
+        .catch( (err) => {
+            res.send(false);
+            res.send(err);
+        })
+    })
+
 module.exports = router;
