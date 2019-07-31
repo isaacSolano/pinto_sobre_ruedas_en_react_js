@@ -52,7 +52,15 @@ router.route('/actualizar_publicacion')
             res.send(false)
             res.send(err)
         })
+    });
 
+router.route('/obtener_publicaciones_rol_activas/:rol')
+    .get( (req, res) => {
+
+        PublicacionModel.find({rol: req.params.rol, desactivado: 0})
+        .then (publicaciones => {
+            res.send(publicaciones)
+        })
     })
 
 module.exports = router;

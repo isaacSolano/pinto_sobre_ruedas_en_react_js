@@ -37,6 +37,7 @@ const RegistrarPublicacion = (props) => {
         valores.desactivado = 0;
         valores.motivoDesact = '';
         valores.id = Date.now();
+        valores.rol = props.usuarioActivo.rol;
 
         let nuevaNotificacion = {
             usuario: props.usuarioActivo.correoElectronico,

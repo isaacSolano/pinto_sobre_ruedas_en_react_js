@@ -8,7 +8,7 @@ import MongoLogo from 'imgs/mongodb.svg'
 import ExpressLogo from 'imgs/express.svg'
 
 const Footer = () => (
-    <footer className="bg-brown p-3">
+    <footer className="bg-brown p-5">
         <div className="container">
             <div className="row">
 

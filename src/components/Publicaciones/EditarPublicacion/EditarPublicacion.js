@@ -76,6 +76,7 @@ const EditarPublicacion = (props) => {
         valores.imagen3 = publicacionActual.imagen3 || '';
         valores.imagen4 = publicacionActual.imagen4 || '';
         valores.fecha = fechaConFormato;
+        valores.rol = publicacionActual.rol;
         valores.desactivado = 0;
         valores.motivoDesact = '';
 

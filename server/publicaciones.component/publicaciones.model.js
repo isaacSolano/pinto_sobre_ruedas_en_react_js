@@ -13,6 +13,7 @@ const PublicacionesSchema = new Schema({
     desactivado: {type: Number, required: true},
     motivoDesact: {type: String, required: false},
     id: {type: Number, required: true, unique: true},
+    rol: {type: Number, required: true},
 });
 
 module.exports = mongoose.model('Publicaciones', PublicacionesSchema);

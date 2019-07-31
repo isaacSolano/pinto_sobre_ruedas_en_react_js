@@ -147,6 +147,21 @@ const _eliminarImagen = async(urlImagenes) => {
     }
 }
 
+const _obtenerPublicacionesRol = async(rol) => {
+    let publicaciones = [];
+
+    for(let i=0; i<rol.length; i++){
+        await axios.get(`http://localhost:5000/api/obtener_publicaciones_rol_activas/${Number(rol[i])}`)
+        .then( (res) => {
+            res.data.forEach(objPublicacion => {
+                publicaciones.push(objPublicacion);
+            })
+        })
+    }
+
+        return publicaciones
+}
+
 const API = {
     registrarPublicacion: _registrarPublicacion,
     obtenerPublicacionesUsuarioActivo: _obtenerPublicacionesUsuarioActivo,
@@ -155,6 +170,7 @@ const API = {
     actualizarPublicacion: _actualizarPublicacion,
     editarPublicacion: _editarPublicacion,
     eliminarImagen: _eliminarImagen,
+    obtenerPublicacionesRol: _obtenerPublicacionesRol,
 };
 
 export default API;

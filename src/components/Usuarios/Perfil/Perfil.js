@@ -17,9 +17,16 @@ const Perfil = (props) => {
     let infoUsuarioActivo = props.usuarioActivo,
         notificaciones = props.notificaciones,
         publicacionesUsuarioActivo = props.publicacionesUsuarioActivo,
-        notificar = false;
+        notificar = false,
+        notificacionesUsuarioActivo = 0;
 
-    if((infoUsuarioActivo.rol === 0 || infoUsuarioActivo.rol === 2) && notificaciones.length !== 0){
+        notificaciones.forEach(notificacion => {
+            if(notificacion.usuario === infoUsuarioActivo.correoElectronico){
+                notificacionesUsuarioActivo++
+            }
+        })
+
+    if((infoUsuarioActivo.rol === 0 || infoUsuarioActivo.rol === 2) && notificaciones.length !== notificacionesUsuarioActivo){
         Swal({
             title: 'Hay nuevas notificaciones por revisar',
             buttons: ['Ver mas tarde', 'Ver ahora'],
