@@ -15,9 +15,11 @@ import ServicioUsuarios from 'components/Usuarios/ServicioUsuarios';
 const Perfil = (props) => {
 
     let infoUsuarioActivo = props.usuarioActivo,
-        notificaciones = props.notificaciones;
+        notificaciones = props.notificaciones,
+        publicacionesUsuarioActivo = props.publicacionesUsuarioActivo,
+        notificar = false;
 
-    if((infoUsuarioActivo.rol === 0 || infoUsuarioActivo.rol === 2) && notificaciones !== '[]'){
+    if((infoUsuarioActivo.rol === 0 || infoUsuarioActivo.rol === 2) && notificaciones.length !== 0){
         Swal({
             title: 'Hay nuevas notificaciones por revisar',
             buttons: ['Ver mas tarde', 'Ver ahora'],
@@ -26,6 +28,26 @@ const Perfil = (props) => {
         .then( (confirmacion) => {
             if(confirmacion){
                 navigate('/aplicacionInterna/listarNotificaciones');
+            }
+        })
+    }
+
+    for(let i=0; i<publicacionesUsuarioActivo.length; i++){
+        if(publicacionesUsuarioActivo[i].desactivado === 2){
+            notificar = true;
+        }
+    }
+
+    if(notificar){
+        Swal({
+            title: 'Una o varias publicaciones fueron desactivadas',
+            icon: 'warning',
+            dangerMode: true,
+            buttons: ['Ver más tarde', 'Ver mis publicaciones'],
+        })
+        .then( confirmacion => {
+            if(confirmacion){
+                navigate('/aplicacionInterna/listarPublicaciones');
             }
         })
     }

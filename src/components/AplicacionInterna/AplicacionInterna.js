@@ -56,7 +56,7 @@ const AplicacionInterna = () => {
     }
 
     const internRoutes = {
-        '/': () => <Perfil usuarioActivo={infoUsuarioActivo} notificaciones={notificaciones}/>,
+        '/': () => <Perfil usuarioActivo={infoUsuarioActivo} publicacionesUsuarioActivo={publicacionesUsuarioActivo} notificaciones={notificaciones}/>,
         '/cambiarContrasena': () => <CambiarContrasena usuarioActivo={infoUsuarioActivo} />,
         '/editarUsuario': () => <EditarUsuario usuarioActivo={infoUsuarioActivo} />,
         '/registroColaboradores': () => <RegistroColaboradores usuarioActivo={infoUsuarioActivo} />,
