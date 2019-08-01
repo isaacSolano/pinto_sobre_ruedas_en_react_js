@@ -17,7 +17,11 @@ const Header = () => {
     }
 
     let redirigirListarPublicacionesAdmin = () => {
-        navigate('/listarPublicacionesAdmin')
+        navigate('/listarPublicacionesAdmin');
+    }
+
+    let redirigirListarPublicacionesCliente = () => {
+        navigate('/listarPublicacionesClientes');
     }
 
     let redirigirRegistro = () => {
@@ -25,7 +29,7 @@ const Header = () => {
     }
 
     let redirigirInicioSesion = () => {
-        navigate('/inicioSesion')
+        navigate('/inicioSesion');
     }
 
     let redirigirPerfil = () => {
@@ -60,7 +64,7 @@ const Header = () => {
                     <nav className="nav justify-content-start col-md-4">
                         <a href="#" className=" custom-link py-3 nav-link text-brown" onClick={redirigirInicio}>Inicio</a>
                         <a href="#" className=" custom-link py-3 nav-link text-brown" onClick={redirigirListarPublicacionesAdmin}>Equipo</a>
-                        <a href="#" className=" custom-link py-3 nav-link text-brown">Comunidad</a>
+                        <a href="#" className=" custom-link py-3 nav-link text-brown" onClick={redirigirListarPublicacionesCliente}>Comunidad</a>
                     </nav>
 
                     <a href="#" className="navbar-brand col-md-2 justify-content-center mx-0" onClick={redirigirInicio}>

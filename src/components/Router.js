@@ -3,6 +3,7 @@ import {useRoutes} from 'hookrouter';
 
 import LandingPage from 'components/LandingPage/LandingPage';
 import ListarPublicacionesAdmin from 'components/ListarPublicacionesAdmin/ListarPublicacionesAdmin';
+import ListarPublicacionesClientes from 'components/ListarPublicacionesClientes/ListarPublicacionesClientes';
 import RegistroUsuarios from 'components/Usuarios/RegistroUsuarios/RegistroUsuarios';
 import InicioSesion from 'components/Usuarios/InicioSesion/InicioSesion';
 import ReestablecerContrasena from 'components/Usuarios/ReestablecerContrasena/ReestablecerContrasena';
@@ -17,6 +18,7 @@ const routes = {
     '/inicioSesion': () => <InicioSesion />,
     '/reestablecerContrasena': () => <ReestablecerContrasena />,
     '/listarPublicacionesAdmin': () => <ListarPublicacionesAdmin />,
+    '/listarPublicacionesClientes': () => <ListarPublicacionesClientes />,
     '/aplicacionInterna*': () => <AplicacionInterna />,
 }
 
